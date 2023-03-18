@@ -9,88 +9,11 @@
 #include <string>
 
 using namespace std;
-const char *FILENAME = "test.in";
+const char *FILENAME_FROM = "test.in";
+const char *FILENAME_TO = "bruh.txt";
 
-void detectCharacter(const char c){};
 
-class letter
-{
-    string letter_in_char;
-    int bytes;
-    int utfID;
-    vector<int> arr;
-
-public:
-    letter(string in)
-    {
-        int bytes = in.length();
-        int a;
-        vector<int> b1;
-        vector<int> b2;
-        vector<int> b3;
-        vector<int> b4;
-        vector<int> join;
-        cout << "bruh";
-        int power = 2;
-
-        /* 0xxxxxxx */
-        for (int j = 0; j < 7; j++, power *= 2)
-        {
-            if (in[0] % power == 0)
-            {
-                join.insert(join.begin(), 1);
-            }
-            else
-            {
-                join.insert(join.begin(), 0);
-            }
-        }
-
-        for (int i = 0; i < join.size(); i++)
-        {
-            cout << join[i] << in;
-        }
-        cout << endl;
-    }
-};
-
-string utfToCharacter(ifstream &fin)
-{
-    char a;
-    if (!(fin >> a))
-    {
-    }
-    int bits = 0;
-    string arr = "";
-    char b, c, d;
-    if ((a & 0x80) == 0x0)
-    {
-        arr.push_back(a);
-    }
-    else if ((a & 0xE0) == 0xC0)
-    {
-        fin >> b;
-        arr.push_back(a);
-        arr.push_back(b);
-    }
-    else if ((a & 0xF0) == 0xE0)
-    {
-        fin >> b >> c;
-        arr.push_back(a);
-        arr.push_back(b);
-        arr.push_back(c);
-    }
-    else if ((a & 0xF8) == 0xF0)
-    {
-        fin >> b >> c >> d;
-        arr.push_back(a);
-        arr.push_back(b);
-        arr.push_back(c);
-        arr.push_back(d);
-    }
-}
-
-void    charToBinaryFromEnd(char c, vector<int> &pushTo, int last = 8)
+void charToBinaryFromEnd(char c, vector<int> &pushTo, int last = 8)
 {
     int asciiCode = static_cast<int>(c);
     for (int i = last - 1; i >= 0; i--)
@@ -114,52 +37,59 @@ int vectorToID(const vector<int> &sumOf)
     return sum;
 }
 
-int convertUTFToID(ifstream &fin)
+int convertUTFToID(ifstream &fin, char first)
 {
-    char a, b, c, d;
-    /* --------CHECK */
-    if (!(fin >> a))
-        exit(0);
-    /* --------CHECK */
+    char b, c, d;
 
     vector<int> id;
     /* 1-BAJTOVY */
-    if ((a & 0x80) == 0x0)
+    if ((first & 0x80) == 0x0)
     {
-        charToBinaryFromEnd(a, id, 7);
+        cout << "Jednobajtovy utf" << endl;
+        charToBinaryFromEnd(first, id, 7);
+
     }
     /* 2-BAJTOVY */
-    else if ((a & 0xE0) == 0xC0)
+    else if ((first & 0xE0) == 0xC0)
     {
-        if (!(fin >> b))
-            exit(1);
-        charToBinaryFromEnd(a, id, 5);
+        cout << "Dvojbajtovy utf" << endl;
+        if(!(fin >> b)){
+            return -1;
+        }
+        charToBinaryFromEnd(first, id, 5);
         charToBinaryFromEnd(b, id, 6);
+        
     }
     /* 3-BAJTOVY */
-    else if ((a & 0xF0) == 0xE0)
+    else if ((first & 0xF0) == 0xE0)
     {
-        if (!(fin >> b >> c))
-            exit(1);
-        charToBinaryFromEnd(a, id, 4);
+        cout << "Trojbajtovy utf" << endl;
+        if(!(fin >> b >>c)){
+            return -1;
+        }
+        charToBinaryFromEnd(first, id, 4);
         charToBinaryFromEnd(b, id, 6);
         charToBinaryFromEnd(c, id, 6);
+
     }
     /* 4-BAJTOVY */
-    else if ((a & 0xF8) == 0xF0)
+    else if ((first & 0xF8) == 0xF0)
     {
-        if (!(fin >> b >> c >> d))
-            exit(1);
-        charToBinaryFromEnd(a, id, 3);
+        if(!(fin >> b >> c >> d)){
+            return -1;
+        }
+        cout << "Stvorbajtovy utf" << endl;
+        
+        charToBinaryFromEnd(first, id, 3);
         charToBinaryFromEnd(b, id, 6);
         charToBinaryFromEnd(c, id, 6);
-        charToBinaryFromEnd(d, id, 6);
+        charToBinaryFromEnd(d, id, 6); 
+
     }
     else
     {
         cout << "Znak neodpoveda UTF8 kódovaniu";
-        fin.close();
-        exit(0);
+        return -1;
     }
 
     return vectorToID(id);
@@ -169,7 +99,7 @@ vector<int> zeckendorf(int n)
 {
     int fib1 = 1, fib2 = 2;
     vector<int> code;
-
+    code.push_back(1);
     while (fib2 <= n)
     {
         int temp = fib2;
@@ -192,15 +122,9 @@ vector<int> zeckendorf(int n)
         fib2 = fib1;
         fib1 = temp;
     }
+    code.pop_back();
 
-    vector<int> res;
-    /* string result = ""; */
-    for (int i = 0; i < code.size(); i++)
-    {
-        res.push_back(code[i]);
-        /* result += to_string(code[i]); */
-    }
-    return res;
+    return code;
 }
 
 void printVector(vector<int> toPrint)
@@ -211,32 +135,68 @@ void printVector(vector<int> toPrint)
     }
 }
 
-void writeZero(ofstream &to)
+char vectorToChar(vector<int> queue)
 {
-    int zero = 0;
-    cout << "pis0";
-    to.write((const char *)&zero, sizeof(zero));
+    char a = '0';
+    for (int i = 0; i < 8; i++)
+        if (queue[i] >= 1)
+        {
+            a += 0b00000001 << i;
+        }
+    return a;
 }
 
-void writeOne(ofstream &to)
+void writeChar(char a, ofstream fileTo)
 {
-    int one = 1;
-    cout << "pis1";
-    to.write((const char *)&one, sizeof(one));
+    fileTo.put(a);
 }
-int writeVector(ofstream &to, vector<int> vec)
+
+void appendVector(vector<int> &res, vector<int> &toWrite)
 {
-    int sum = 0;
-    int size = vec.size();
-    for (int i = size; i >= 0; i--)
+    for (int i = 0; i < toWrite.size(); i++)
     {
-        if (vec[i] == 1)
-            writeOne(to);
-        else
-            writeZero(to);
-        sum++;
+        res.push_back(toWrite[i]);
     }
-    return sum + 1;
+}
+
+vector<int> reverseVector(vector<int> toRev){
+    vector<int> rev;
+    for(int i = (toRev.size()-1); i>=0; i--){
+        rev.push_back(toRev[i]);
+    }
+    return rev;
+}
+
+void writeVector(vector<int> &queues, ofstream &fileTo, int max = 8)
+{
+    printVector(queues);
+    cout << endl;
+    while(queues.size()>=8){
+        vector<int> queue = {};
+        for(int i=0;i<8;i++){
+            queue.push_back(queues[0]);
+            queues.erase(queues.begin());
+        }
+        printVector(queue);
+        cout << endl;
+        queue = reverseVector(queue);
+        printVector(queue);
+        cout << endl;
+    
+    cout << queue.size() << endl;
+
+
+    unsigned char byte = 0;
+    int i = 0;
+    for(int bit : queue){
+        byte = (byte << 1) | bit;
+        i++;
+        if(i >=8){
+            break;
+        }
+    }
+    fileTo.write(reinterpret_cast<const char*>(&byte), sizeof(byte));
+    }
 }
 
 int main()
@@ -244,10 +204,8 @@ int main()
     ifstream fin;
     ofstream fileTo;
 
-    fin.open(FILENAME);
-    fileTo.open("bruhmomentos.txt", std::ios::out | std::ios::binary);
-    int zero = 0b00000001;
-    fileTo.write((const char *)&zero, sizeof(zero));
+    fin.open(FILENAME_FROM);
+    fileTo.open(FILENAME_TO, std::ios::out | std::ios::binary);
 
     if (!fin.is_open() || !fin)
     {
@@ -255,29 +213,50 @@ int main()
         exit(1);
     }
 
-    int counting = 0;
-    int sum = 0;
-    while (!fin.eof())
+    int cnt = 0;
+    
+    vector<int> toWrite;
+
+    char first;
+    while (fin.get(first))
     {
-        int id = convertUTFToID(fin);
-        cout << id << endl;
-        vector<int> res = zeckendorf(id);
-        res.push_back(1);
+        /* Ziskaj ID znaku */
+        int id = convertUTFToID(fin, first);
+        if(id == -1){
+            cout << "Neplatny znak";
+            return 0;
+        }
+        cout << "ID ZNAKU: " << id << endl;
 
-        cout << "BIN: ";
-        printVector(res);
-        cout << endl
-             << id + 1 << endl;
-
-        printVector(res);
-        sum += writeVector(fileTo, res);
+        /* ID znaku prekonvertuj do fibonnaciho kodu */
+        vector<int> FibRepresent= reverseVector(zeckendorf(id+1));
+        
+        cout << "Fibonnaciho reprezentacia: ";
+        printVector(FibRepresent);
         cout << endl;
+        cout << "-------------------" << endl << endl;
+
+
+                /* Pridaj fibonnaciho reprezentaciu do queue */
+        for(int i = 0; i<FibRepresent.size();i++){
+            toWrite.push_back(FibRepresent[i]);
+        }
+        /* Pridaj oddelovaci znak */
+
+        /* Ak ma queue aspon osem znakov zapis do suboru bajt */
+        if(toWrite.size() >= 8){
+            writeVector(toWrite, fileTo);
+        }
+
     };
-    int remaining = sum % 8;
-    for (int i = 0; i < remaining; i++)
-    {
-        writeZero(fileTo);
+    if(toWrite.size()!=0){
+        int rem = 8-toWrite.size();
+        for(int i=0; i< rem; i++){
+            toWrite.push_back(0);
+        }
+        writeVector(toWrite,fileTo);
     }
+
 
     fin.close();
     fileTo.close();
