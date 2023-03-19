@@ -80,33 +80,37 @@ int convertUTFToID(ifstream &fin, char first)
 
 vector<int> zeckendorf(int n)
 {
-    int fib1 = 1, fib2 = 2;
-    vector<int> code;
-    code.push_back(1);
-    while (fib2 <= n)
+    int first = 1, second = 2;
+    vector<int> rep;
+    /* Pridaj ukoncovaciu 1 */
+    rep.push_back(1);
+    
+    /* Najdi najvacsie fibbonaciho cislo mensie ako n */
+    while (second <= n)
     {
-        int temp = fib2;
-        fib2 = fib1 + fib2;
-        fib1 = temp;
+        int temp = second;
+        second = first + second;
+        first = temp;
     }
 
-    while (fib1 > 0)
+    /* Postupne odpocitavaj cisla naspat a ak cislo je obsiahle pridaj 1 */
+    while (first > 0)
     {
-        if (n >= fib1)
+        if (n >= first)
         {
-            code.push_back(1);
-            n -= fib1;
+            rep.push_back(1);
+            n -= first;
         }
         else
-        {
-            code.push_back(0);
-        }
-        int temp = fib2 - fib1;
-        fib2 = fib1;
-        fib1 = temp;
+            rep.push_back(0);
+        
+        int temp = second - first;
+        second = first;
+        first = temp;
     }
-    code.pop_back();
-    return code;
+    /* Odstran prebytocnu nulu*/
+    rep.pop_back();
+    return rep;
 }
 
 void appendVector(vector<int> &res, vector<int> &toWrite)
