@@ -33,22 +33,22 @@ int main() {
     cout << folder_current << endl;
 
 
-    /* Counted references */
-    cout<<"=============== 2 ==============="<<endl;
-    Folder folder_current_copy = folder_current;
-    Folder folder_current_copy2;
-    folder_current_copy2 = folder_current;
-
-    std::cout << folder_current_copy2 << endl;
-
-    /* See that now all folders share the same data */
-    Document report("Report", 592);
-    folder_current_copy += report;
-
-    cout<<"=============== 3 ==============="<<endl;
-    cout << folder_current << endl;
-    cout << folder_current_copy << endl;
-
-    /* Copy on write - two prints above should give different results */
+//    /* Counted references */
+//    cout<<"=============== 2 ==============="<<endl;
+//    Folder folder_current_copy = folder_current;
+//    Folder folder_current_copy2;
+//    folder_current_copy2 = folder_current;
+//
+//    std::cout << folder_current_copy2 << endl;
+//
+//    /* See that now all folders share the same data */
+//    Document report("Report", 592);
+//    folder_current_copy += report;
+//
+//    cout<<"=============== 3 ==============="<<endl;
+//    cout << folder_current << endl;
+//    cout << folder_current_copy << endl;
+//
+//    /* Copy on write - two prints above should give different results */
     return 0;
 }

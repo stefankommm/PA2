@@ -22,8 +22,14 @@ public:
     ~Folder();
 
 private:
+
+    struct DocumentsData {
+        Document * documents;
+        int documents_count = 0;
+        int reference_count = 0;
+    };
     string name;
-    Document * documents;
+    DocumentsData * data;
     int documents_count = 0; //number of documents contained in this folder
 };
 

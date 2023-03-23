@@ -1,0 +1,3 @@
+/home/stefam/fit/pa2/prog-2/cmake-build-debug/CMakeFiles/prog_2.dir
+/home/stefam/fit/pa2/prog-2/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/stefam/fit/pa2/prog-2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
