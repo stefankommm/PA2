@@ -174,7 +174,7 @@ private:
 
 
 bool CPersonalAgenda::add(const string &name, const string &surname, const string &email, unsigned int salary) {
-    if(emp_name.size() == 0){
+    if(emp_name.empty()){
         emp_name.push_back(CEmployeeName(name, surname, email, salary));
         emp_email.push_back(CEmployeeEmail(name,surname, email));
         return true;
@@ -211,16 +211,19 @@ bool CPersonalAgenda::del(const string &email) {
 }
 
 bool CPersonalAgenda::changeName(const string &email, const string &newName, const string &newSurname) {
-    auto email_to = CEmailIterator(email);
-    if (email_to == emp_email.end() && (emp_email.end()->email != email)) return false;
-    auto name_to = CNameIterator(email_to->name, email_to->surname);
-    if(name_to->name + name_to->surname != email_to->name + email_to->surname){
-        cout << "MENA SA NEZHODUJU CHANGENAME";
-    }
-    name_to->name=newName;
-    name_to->surname=newSurname;
-    email_to->name=newName;
-    email_to->surname=newSurname;
+    cout << "________CHANGENAME _____________" << newName << newSurname<< endl;
+    auto email_to = lower_bound(emp_email.begin(), emp_email.end(), CEmployeeEmail(email), sameEmail);
+    cout << "CHANGENAME   " <<  email_to->name << email_to->surname << endl;
+    auto name_to = lower_bound(emp_name.begin(), emp_name.end(), CEmployeeName(email_to->name, email_to->surname), sameName);
+    cout << "CHANGENAME   " << name_to->name << name_to->surname << endl;
+
+    unsigned long tmp_salary = name_to->salary;
+
+    emp_name.erase(name_to);
+//    this->add(newName, newSurname, email, tmp_salary);
+
+    this->printByName();
+    cout<< "pridane" << endl;
 
     return true;
 }
@@ -268,7 +271,7 @@ unsigned int CPersonalAgenda::getSalary(const string &email) const {
     string surname = email_to->surname;
     cout << "CLOVEK" <<  name << surname << endl;
     auto name_to = lower_bound(emp_name.begin(), emp_name.end(), CEmployeeName(name, surname), sameName);
-    cout << "Clovek" << name_to->name << name_to->surname << name_to->email;
+    cout << "Clovek" << name_to->name << name_to->surname << name_to->email << endl << endl;
     return name_to->salary;
 
 
@@ -367,6 +370,8 @@ int main ( void )
     assert ( b1 . changeName ( "peter", "James", "Bond" ) );
     cout << b1 . getSalary ( "peter" ) << endl;
     assert ( b1 . getSalary ( "peter" ) ==  23000 );
+    b1.printByName();
+    b1.printByEmail();
     assert ( b1 . getSalary ( "James", "Bond" ) ==  23000 );
     assert ( b1 . getSalary ( "Peter", "Smith" ) ==  0 );
     b1.printByName();
