@@ -120,7 +120,7 @@ public:
 
             // Skontroluj overlapping vpredu
             while (one_after != intervals.end()) {
-                if (one_after->lo <= added->hi + 1) {
+                if (one_after->lo <= added->hi + 1 || added->hi == LLONG_MAX) {
                     if (one_after->hi > added->hi)
                         added->hi = one_after->hi;
                     one_after = intervals.erase(one_after);
@@ -155,10 +155,10 @@ public:
             }
         }
         // ak dalsie intervaly su obsiahnute v ref->vymaz / ak narazis na koniec uprav lo na hi-1 a return
-        while (one_after != intervals.end() && one_after->lo <= ref.hi + 1) {
+        while (one_after != intervals.end() &&((ref.hi == LLONG_MAX )|| (one_after->lo <= ref.hi + 1))) {
             if (one_after->hi <= ref.hi) {
                 one_after = intervals.erase(one_after);
-            } else if (one_after->hi > ref.hi && one_after->lo <= ref.hi) {
+            } else if (one_after->hi > ref.hi && one_after->lo <= ref.hi && ref.hi != LLONG_MAX) {
                 one_after->lo = ref.hi + 1;
                 break;
             } else {
@@ -333,7 +333,7 @@ int main(void) {
     assert (!(a == b));
     assert (a != b);
     assert (b.includes(15));
-        assert (b.includes(2900));
+    assert (b.includes(2900));
     assert (b.includes(CRange(15, 15)));
     assert (b.includes(CRange(-350, -350)));
     assert (b.includes(CRange(100, 200)));
