@@ -273,7 +273,7 @@ public:
     bool delAccepted(const CInvoice &toRemove) {
         string buyer_normalized = normalizeName(toRemove.buyer());
         string seller_normalized = normalizeName(toRemove.seller());
-        
+
         if (mena.find(seller_normalized) == mena.end() || mena.find(buyer_normalized) == mena.end() || seller_normalized == buyer_normalized) {
             return false;
         }
