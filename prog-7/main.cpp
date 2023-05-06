@@ -10,6 +10,7 @@
 #include <string>
 #include <deque>
 #include <unordered_map>
+#include <functional>
 
 #include <stdexcept>
 
@@ -21,19 +22,7 @@ template<typename M_>
 class CContest {
 
 private:
-    class CompWrapper {
-    private:
-        int (*comparator)(const M_ &x);
 
-    public:
-        explicit CompWrapper(int (*c)(const M_ &x)) {
-            comparator = c;
-        }
-
-        int operator()(const M_ &x) const {
-            return comparator(x);
-        }
-    };
 
     class Person {
     public:
@@ -46,8 +35,8 @@ private:
     };
 
 
-    template<class M_COMP>
-    unordered_map<string, Person> generatePeopleToHandle(bool &solvable, const M_COMP &comparator) const{
+
+    unordered_map<string, Person> generatePeopleToHandle(bool &solvable, std::function<int(M_)> comparator) const{
         unordered_map<string, Person> people_to_handle;
 
         for (const auto &per: m_matches) {
@@ -126,16 +115,12 @@ public:
     }
 
 
-    // ISORDERED - Wrapper
-    bool isOrdered(int (*comparator)(const M_ &x)) const {
-        CompWrapper compWrap(comparator);
-        return isOrdered < CompWrapper > (compWrap);
-    };
+
 
 
     // isOrdered ( comparator )
     template<class M_COMP>
-    bool isOrdered(const M_COMP comparator) const {
+    bool isOrdered(M_COMP comparator) const {
         bool solvable;
         unordered_map<string, Person> people_to_handle = std::move(generatePeopleToHandle(solvable, comparator));
         if (!solvable)
@@ -148,15 +133,8 @@ public:
     }
 
 
-    // RESULTS - Wrapper
-    list<string> results(int (*comparator)(const M_ &x)) const {
-        CompWrapper compWrap(comparator);
-        return results < CompWrapper > (compWrap);
-    }
-
     // results ( comparator )
-    template<class M_COMP>
-    list<string> results(const M_COMP &comparator) {
+    list<string> results(std::function<int(M_)> comparator) const {
 
         bool solvable;
         unordered_map<string, Person> people_to_handle = std::move(generatePeopleToHandle(solvable, comparator));
