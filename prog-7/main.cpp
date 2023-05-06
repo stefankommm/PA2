@@ -1,28 +1,16 @@
 #ifndef __PROGTEST__
 
 #include <cstdlib>
-#include <cstdio>
 #include <cassert>
-#include <cctype>
-#include <cmath>
 #include <iostream>
-#include <iomanip>
 #include <sstream>
-#include <set>
 #include <list>
 #include <map>
 #include <vector>
-#include <queue>
 #include <string>
-#include <stack>
-#include <queue>
 #include <deque>
-#include <algorithm>
 #include <unordered_map>
-#include <unordered_set>
-#include <memory>
-#include <functional>
-#include <iterator>
+
 #include <stdexcept>
 
 using namespace std;
@@ -31,152 +19,159 @@ using namespace std;
 
 template<typename M_>
 class CContest {
+
+private:
+    class CompWrapper {
+    private:
+        int (*comparator)(const M_ &x);
+
+    public:
+        explicit CompWrapper(int (*c)(const M_ &x)) {
+            comparator = c;
+        }
+
+        int operator()(const M_ &x) const {
+            return comparator(x);
+        }
+    };
+
+    class Person {
+    public:
+        Person() {
+            won_against = {};
+            count_lost_against = 0;
+        };
+        int count_lost_against;
+        vector<Person *> won_against;
+    };
+
+
+    template<class M_COMP>
+    unordered_map<string, Person> generatePeopleToHandle(bool &solvable, const M_COMP &comparator) const{
+        unordered_map<string, Person> people_to_handle;
+
+        for (const auto &per: m_matches) {
+            int res = comparator(per.second);
+            if (res < 0) {
+                // Vyhral druhy nad prvym
+                people_to_handle[per.first.second].won_against.push_back(&people_to_handle[per.first.first]);
+                people_to_handle[per.first.first].count_lost_against++;
+            } else if (res == 0) {
+                // Nastala remiza, nemoze existovat clovek ktory remizoval
+                solvable = false;
+                return people_to_handle;
+            } else if (res > 0) {
+                // Vyhral prvy nad druhym
+                people_to_handle[per.first.first].won_against.push_back(&people_to_handle[per.first.second]);
+                people_to_handle[per.first.second].count_lost_against++;
+            }
+        }
+        solvable = true;
+        return people_to_handle;
+    }
+
+
+    list<string> generateWinners(bool &solvable, unordered_map<string, Person> &people_to_handle) const  {
+
+        string nextPersonInList;
+        int countOfNextPeople = 0;
+        list<string> winnersList;
+
+        // Prechadzaj vsetkych ludi ktori aspon raz vyhrali. Ak najdes ludi ktory neprehrali nad nikym tak su na prvej pozicii
+        // Ak najdes viac tak je to chyba nemozu byt dvaja prvi. Ak je jeden tak potom vsetkym ludom nad ktorymi vyhral nastav
+        // lost_against o -1 a vyhod prveho zo zoznamu. Potom toto opakuj na zvysnych az do kym neostane nikto na konci
+        while (!people_to_handle.empty()) {
+            for (const auto &it: people_to_handle) {
+                if (it.second.count_lost_against == 0) {
+                    if (countOfNextPeople++ != 0) {
+                        solvable = false;
+                        return winnersList;
+                    }
+                    nextPersonInList = it.first;
+                }
+            };
+
+            if (countOfNextPeople != 1) {
+                solvable = false;
+                return winnersList;
+            } else {
+                for (auto i: people_to_handle[nextPersonInList].won_against) {
+                    (i->count_lost_against) -= 1;
+                }
+                winnersList.push_back(nextPersonInList);
+                people_to_handle.erase(nextPersonInList);
+                countOfNextPeople = 0;
+            }
+        }
+        solvable = true;
+        return winnersList;
+    }
+
+    map<pair<string, string>, M_> m_matches;
+    map<string, list<string>> m_Wins;
+
 public:
 
     CContest() = default;
 
-    CContest& addMatch(const std::string& contestant1, const std::string& contestant2, const M_& result)
-    {
-        if (this->m_matches.count({contestant1, contestant2}) || this->m_matches.count({contestant2, contestant1}))
+    CContest &addMatch(const std::string &contestant1, const std::string &contestant2, const M_ &result) {
+        pair<string, string> pair1 = {contestant1, contestant2};
+        pair<string, string> pair2 = {contestant2, contestant1};
+
+        if (this->m_matches.count(pair1) || this->m_matches.count(pair2))
             throw std::logic_error("duplicate match");
 
-        m_matches.emplace(pair<string, string>(minmax(contestant1, contestant2)), move(result));
+        m_matches.emplace(pair1, std::move(result));
         return *this;
     }
 
 
     // ISORDERED - Wrapper
-    bool isOrdered(const int (*comparator)(const M_& x)) const {
+    bool isOrdered(int (*comparator)(const M_ &x)) const {
         CompWrapper compWrap(comparator);
-        return isOrdered<CompWrapper>(compWrap);
+        return isOrdered < CompWrapper > (compWrap);
     };
+
 
     // isOrdered ( comparator )
     template<class M_COMP>
-    bool isOrdered(const M_COMP comparator){
-
-        for (const auto& entry : m_matches)
-        {
-            const std::string& winner = comparator(entry.second) > 0 ? entry.first.first : entry.first.second;
-            const std::string& loser = winner == entry.first.first ? entry.first.second : entry.first.first;
-            m_Wins[winner].push_back(loser);
+    bool isOrdered(const M_COMP comparator) const {
+        bool solvable;
+        unordered_map<string, Person> people_to_handle = std::move(generatePeopleToHandle(solvable, comparator));
+        if (!solvable)
+            return false;
+        list<string> winnersList = std::move(generateWinners(solvable, people_to_handle));
+        if (!solvable) {
+            return false;
         }
-
-        std::list<std::string> result;
-        for (const auto& entry : m_Wins)
-        {
-            if (result.empty() || bfs(entry.first, result.back(), m_Wins))
-            {
-                result.push_back(entry.first);
-            }
-            else
-            {
-                return false;
-            }
-        }
-
         return true;
     }
 
+
     // RESULTS - Wrapper
-    list<string> results(const int (*comparator)(const M_& x)) const {
+    list<string> results(int (*comparator)(const M_ &x)) const {
         CompWrapper compWrap(comparator);
-        return results<CompWrapper>(compWrap);
+        return results < CompWrapper > (compWrap);
     }
 
     // results ( comparator )
     template<class M_COMP>
-    list<string> results(const M_COMP& comparator) {
-        list<string> result;
-        if (!orderedResults(comparator, result))
-            throw std::logic_error("unordered");
-        return result;
-    };
+    list<string> results(const M_COMP &comparator) {
 
-    template<class M_COMP>
-    bool orderedResults(const M_COMP& comparator, list<string> &result) const
-    {
-        map<string, list<string>> m_Wins;
-
-        for (const auto &entry : m_matches)
-        {
-            const std::string &winner = comparator(entry.second) > 0 ? entry.first.first : entry.first.second;
-            const std::string &loser = winner == entry.first.first ? entry.first.second : entry.first.first;
-            m_Wins[winner].push_back(loser);
+        bool solvable;
+        unordered_map<string, Person> people_to_handle = std::move(generatePeopleToHandle(solvable, comparator));
+        if (!solvable) {
+            throw logic_error("");
         }
 
-        for (const auto &entry : m_Wins)
-        {
-            if (result.empty() || bfs(entry.first, result.back(), m_Wins))
-            {
-                result.push_back(entry.first);
-            }
-            else
-            {
-                return false;
-            }
+        list<string> winnersList = std::move(generateWinners(solvable, people_to_handle));
+        if (!solvable) {
+            throw logic_error("");
         }
 
-        return true;
+        return winnersList;
     }
-
-
-private:
-    class CompWrapper
-    {
-    private:
-        int (*comparator)(const M_& x);
-    public:
-        CompWrapper(const int (*c)(const M_& x))
-        {
-            comparator = c;
-        }
-        int operator () ( const M_ & x ) const
-        {
-            return comparator(x);
-        }
-    };
-
-    template <class M_COMP>
-    bool bfs(const std::string &start, const std::string &end, const M_COMP& comparator) const
-    {
-        std::queue<std::string> q;
-        std::map<std::string, bool> visited;
-
-        q.push(start);
-        visited[start] = true;
-
-        while (!q.empty())
-        {
-            std::string current = q.front();
-            q.pop();
-
-            if (current == end)
-                return true;
-
-            auto it = m_Wins.find(current);
-            if (it != m_Wins.end())
-            {
-                for (const auto &neighbor : it->second)
-                {
-                    if (!visited[neighbor])
-                    {
-                        q.push(neighbor);
-                        visited[neighbor] = true;
-                    }
-                }
-            }
-        }
-
-        return false;
-    }
-
-    map<pair<string,string>, M_> m_matches;
-    map<string, list<string>> m_Wins;
 };
-
-
-
 
 
 #ifndef __PROGTEST__
@@ -195,7 +190,7 @@ public:
 
 class HigherScoreThreshold {
 public:
-    HigherScoreThreshold(int diffAtLeast)
+    explicit HigherScoreThreshold(int diffAtLeast)
             : m_DiffAtLeast(diffAtLeast) {
     }
 
@@ -211,7 +206,7 @@ int HigherScore(const CMatch &x) {
     return (x.m_A > x.m_B) - (x.m_B > x.m_A);
 }
 
-int main(void) {
+int main() {
     CContest<CMatch> x;
 
     x.addMatch("C++", "Pascal", CMatch(10, 3))
@@ -225,6 +220,7 @@ int main(void) {
     assert (!x.isOrdered(HigherScore));
     try {
         list<string> res = x.results(HigherScore);
+        cout << "B";
         assert ("Exception missing!" == nullptr);
     }
     catch (const logic_error &e) {

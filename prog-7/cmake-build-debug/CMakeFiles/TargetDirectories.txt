@@ -1,3 +1,3 @@
-C:/Users/stefa/Programovanie/pa2/prog-7/cmake-build-debug/CMakeFiles/prog_7.dir
-C:/Users/stefa/Programovanie/pa2/prog-7/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/stefa/Programovanie/pa2/prog-7/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/stefam/fit/git-pa2/prog-7/cmake-build-debug/CMakeFiles/prog_7.dir
+C:/Users/stefam/fit/git-pa2/prog-7/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/stefam/fit/git-pa2/prog-7/cmake-build-debug/CMakeFiles/rebuild_cache.dir
