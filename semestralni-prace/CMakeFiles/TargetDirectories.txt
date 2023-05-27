@@ -1,0 +1,3 @@
+/home/stefam/Documents/gitpa2/semestralni-prace/CMakeFiles/Semestralka_PA2.dir
+/home/stefam/Documents/gitpa2/semestralni-prace/CMakeFiles/edit_cache.dir
+/home/stefam/Documents/gitpa2/semestralni-prace/CMakeFiles/rebuild_cache.dir
