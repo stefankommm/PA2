@@ -155,6 +155,7 @@ CMakeFiles/Semestralka_PA2.dir/Game.cpp.o: \
  /usr/include/c++/11/bits/vector.tcc \
  /home/stefam/Documents/gitpa2/semestralni-prace/Character.h \
  /home/stefam/Documents/gitpa2/semestralni-prace/IGhostMovement.h \
+ /home/stefam/Documents/gitpa2/semestralni-prace/config.h \
  /usr/include/c++/11/iomanip /usr/include/c++/11/bits/ios_base.h \
  /usr/include/c++/11/bits/locale_classes.h \
  /usr/include/c++/11/bits/locale_classes.tcc \

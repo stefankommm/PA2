@@ -172,6 +172,7 @@ CMakeFiles/Semestralka_PA2.dir/main.cpp.o: \
  /usr/include/c++/11/bits/vector.tcc \
  /home/stefam/Documents/gitpa2/semestralni-prace/Character.h \
  /home/stefam/Documents/gitpa2/semestralni-prace/IGhostMovement.h \
+ /home/stefam/Documents/gitpa2/semestralni-prace/config.h \
  /usr/include/c++/11/iomanip /usr/include/c++/11/locale \
  /usr/include/c++/11/bits/locale_facets_nonio.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/time_members.h \

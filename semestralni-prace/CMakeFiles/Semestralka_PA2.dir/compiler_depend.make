@@ -139,6 +139,7 @@ CMakeFiles/Semestralka_PA2.dir/Board.cpp.o: Board.cpp \
   /usr/include/c++/11/bits/atomic_lockfree_defines.h \
   /usr/include/c++/11/backward/auto_ptr.h \
   IGhostMovement.h \
+  config.h \
   /usr/include/c++/11/iomanip \
   /usr/include/c++/11/bits/ios_base.h \
   /usr/include/c++/11/bits/localefwd.h \
@@ -470,6 +471,12 @@ CMakeFiles/Semestralka_PA2.dir/Character.cpp.o: Character.cpp \
   /usr/include/c++/11/cstring \
   /usr/include/string.h \
   /usr/include/strings.h \
+  /usr/include/c++/11/map \
+  /usr/include/c++/11/bits/stl_tree.h \
+  /usr/include/c++/11/bits/stl_map.h \
+  /usr/include/c++/11/bits/stl_multimap.h \
+  /usr/include/c++/11/bits/erase_if.h \
+  config.h \
   /usr/include/c++/11/iomanip \
   /usr/include/c++/11/locale \
   /usr/include/c++/11/bits/locale_facets_nonio.h \
@@ -482,17 +489,12 @@ CMakeFiles/Semestralka_PA2.dir/Character.cpp.o: Character.cpp \
   /usr/include/c++/11/bits/locale_conv.h \
   /usr/include/c++/11/bits/quoted_string.h \
   /usr/include/c++/11/sstream \
-  /usr/include/c++/11/bits/sstream.tcc \
-  /usr/include/c++/11/map \
-  /usr/include/c++/11/bits/stl_tree.h \
-  /usr/include/c++/11/bits/stl_map.h \
-  /usr/include/c++/11/bits/stl_multimap.h \
-  /usr/include/c++/11/bits/erase_if.h
+  /usr/include/c++/11/bits/sstream.tcc
 
 CMakeFiles/Semestralka_PA2.dir/Configuration.cpp.o: Configuration.cpp \
   /usr/include/stdc-predef.h \
-  Configuration.h \
-  /usr/include/c++/11/string \
+  /usr/include/c++/11/list \
+  /usr/include/c++/11/bits/stl_algobase.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
   /usr/include/features.h \
@@ -504,10 +506,6 @@ CMakeFiles/Semestralka_PA2.dir/Configuration.cpp.o: Configuration.cpp \
   /usr/include/x86_64-linux-gnu/gnu/stubs.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/cpu_defines.h \
-  /usr/include/c++/11/bits/stringfwd.h \
-  /usr/include/c++/11/bits/memoryfwd.h \
-  /usr/include/c++/11/bits/char_traits.h \
-  /usr/include/c++/11/bits/stl_algobase.h \
   /usr/include/c++/11/bits/functexcept.h \
   /usr/include/c++/11/bits/exception_defines.h \
   /usr/include/c++/11/bits/cpp_type_traits.h \
@@ -524,6 +522,25 @@ CMakeFiles/Semestralka_PA2.dir/Configuration.cpp.o: Configuration.cpp \
   /usr/include/c++/11/bits/ptr_traits.h \
   /usr/include/c++/11/debug/debug.h \
   /usr/include/c++/11/bits/predefined_ops.h \
+  /usr/include/c++/11/bits/allocator.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/c++allocator.h \
+  /usr/include/c++/11/ext/new_allocator.h \
+  /usr/include/c++/11/new \
+  /usr/include/c++/11/bits/exception.h \
+  /usr/include/c++/11/bits/memoryfwd.h \
+  /usr/include/c++/11/bits/range_access.h \
+  /usr/include/c++/11/initializer_list \
+  /usr/include/c++/11/bits/stl_list.h \
+  /usr/include/c++/11/ext/alloc_traits.h \
+  /usr/include/c++/11/bits/alloc_traits.h \
+  /usr/include/c++/11/bits/stl_construct.h \
+  /usr/include/c++/11/bits/allocated_ptr.h \
+  /usr/include/c++/11/ext/aligned_buffer.h \
+  /usr/include/c++/11/bits/list.tcc \
+  Configuration.h \
+  /usr/include/c++/11/string \
+  /usr/include/c++/11/bits/stringfwd.h \
+  /usr/include/c++/11/bits/char_traits.h \
   /usr/include/c++/11/bits/postypes.h \
   /usr/include/c++/11/cwchar \
   /usr/include/wchar.h \
@@ -548,11 +565,6 @@ CMakeFiles/Semestralka_PA2.dir/Configuration.cpp.o: Configuration.cpp \
   /usr/include/x86_64-linux-gnu/bits/time64.h \
   /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
   /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
-  /usr/include/c++/11/bits/allocator.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/c++allocator.h \
-  /usr/include/c++/11/ext/new_allocator.h \
-  /usr/include/c++/11/new \
-  /usr/include/c++/11/bits/exception.h \
   /usr/include/c++/11/bits/localefwd.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/c++locale.h \
   /usr/include/c++/11/clocale \
@@ -567,8 +579,6 @@ CMakeFiles/Semestralka_PA2.dir/Configuration.cpp.o: Configuration.cpp \
   /usr/include/c++/11/bits/cxxabi_forced.h \
   /usr/include/c++/11/bits/stl_function.h \
   /usr/include/c++/11/backward/binders.h \
-  /usr/include/c++/11/bits/range_access.h \
-  /usr/include/c++/11/initializer_list \
   /usr/include/c++/11/bits/basic_string.h \
   /usr/include/c++/11/ext/atomicity.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/gthr.h \
@@ -601,9 +611,6 @@ CMakeFiles/Semestralka_PA2.dir/Configuration.cpp.o: Configuration.cpp \
   /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/atomic_word.h \
   /usr/include/x86_64-linux-gnu/sys/single_threaded.h \
-  /usr/include/c++/11/ext/alloc_traits.h \
-  /usr/include/c++/11/bits/alloc_traits.h \
-  /usr/include/c++/11/bits/stl_construct.h \
   /usr/include/c++/11/ext/string_conversions.h \
   /usr/include/c++/11/cstdlib \
   /usr/include/stdlib.h \
@@ -660,9 +667,7 @@ CMakeFiles/Semestralka_PA2.dir/Configuration.cpp.o: Configuration.cpp \
   /usr/include/c++/11/bits/shared_ptr.h \
   /usr/include/c++/11/bits/shared_ptr_base.h \
   /usr/include/c++/11/typeinfo \
-  /usr/include/c++/11/bits/allocated_ptr.h \
   /usr/include/c++/11/bits/refwrap.h \
-  /usr/include/c++/11/ext/aligned_buffer.h \
   /usr/include/c++/11/ext/concurrence.h \
   /usr/include/c++/11/exception \
   /usr/include/c++/11/bits/exception_ptr.h \
@@ -673,6 +678,7 @@ CMakeFiles/Semestralka_PA2.dir/Configuration.cpp.o: Configuration.cpp \
   /usr/include/c++/11/bits/atomic_lockfree_defines.h \
   /usr/include/c++/11/backward/auto_ptr.h \
   IGhostMovement.h \
+  config.h \
   /usr/include/c++/11/iomanip \
   /usr/include/c++/11/bits/ios_base.h \
   /usr/include/c++/11/bits/locale_classes.h \
@@ -928,6 +934,7 @@ CMakeFiles/Semestralka_PA2.dir/Game.cpp.o: Game.cpp \
   /usr/include/c++/11/bits/vector.tcc \
   Character.h \
   IGhostMovement.h \
+  config.h \
   /usr/include/c++/11/iomanip \
   /usr/include/c++/11/bits/ios_base.h \
   /usr/include/c++/11/bits/locale_classes.h \
@@ -1242,6 +1249,12 @@ CMakeFiles/Semestralka_PA2.dir/IGhostMovement.cpp.o: IGhostMovement.cpp \
   /usr/include/c++/11/cstring \
   /usr/include/string.h \
   /usr/include/strings.h \
+  /usr/include/c++/11/map \
+  /usr/include/c++/11/bits/stl_tree.h \
+  /usr/include/c++/11/bits/stl_map.h \
+  /usr/include/c++/11/bits/stl_multimap.h \
+  /usr/include/c++/11/bits/erase_if.h \
+  config.h \
   /usr/include/c++/11/iomanip \
   /usr/include/c++/11/locale \
   /usr/include/c++/11/bits/locale_facets_nonio.h \
@@ -1254,12 +1267,7 @@ CMakeFiles/Semestralka_PA2.dir/IGhostMovement.cpp.o: IGhostMovement.cpp \
   /usr/include/c++/11/bits/locale_conv.h \
   /usr/include/c++/11/bits/quoted_string.h \
   /usr/include/c++/11/sstream \
-  /usr/include/c++/11/bits/sstream.tcc \
-  /usr/include/c++/11/map \
-  /usr/include/c++/11/bits/stl_tree.h \
-  /usr/include/c++/11/bits/stl_map.h \
-  /usr/include/c++/11/bits/stl_multimap.h \
-  /usr/include/c++/11/bits/erase_if.h
+  /usr/include/c++/11/bits/sstream.tcc
 
 CMakeFiles/Semestralka_PA2.dir/InputHandler.cpp.o: InputHandler.cpp \
   /usr/include/stdc-predef.h \
@@ -1659,6 +1667,7 @@ CMakeFiles/Semestralka_PA2.dir/Modes/Mode.cpp.o: Modes/Mode.cpp \
   /usr/include/c++/11/bits/vector.tcc \
   Character.h \
   IGhostMovement.h \
+  config.h \
   /usr/include/c++/11/iomanip \
   /usr/include/c++/11/bits/ios_base.h \
   /usr/include/c++/11/bits/locale_classes.h \
@@ -1742,7 +1751,10 @@ CMakeFiles/Semestralka_PA2.dir/Modes/Mode.cpp.o: Modes/Mode.cpp \
   /usr/include/linux/falloc.h \
   /usr/include/x86_64-linux-gnu/bits/stat.h \
   /usr/include/x86_64-linux-gnu/bits/struct_stat.h \
-  rang.hpp
+  rang.hpp \
+  /usr/include/c++/11/list \
+  /usr/include/c++/11/bits/stl_list.h \
+  /usr/include/c++/11/bits/list.tcc
 
 CMakeFiles/Semestralka_PA2.dir/Modes/Playing.cpp.o: Modes/Playing.cpp \
   /usr/include/stdc-predef.h \
@@ -1936,6 +1948,7 @@ CMakeFiles/Semestralka_PA2.dir/Modes/Playing.cpp.o: Modes/Playing.cpp \
   /usr/include/c++/11/bits/vector.tcc \
   Character.h \
   IGhostMovement.h \
+  config.h \
   /usr/include/c++/11/iomanip \
   /usr/include/c++/11/bits/ios_base.h \
   /usr/include/c++/11/bits/locale_classes.h \
@@ -2211,6 +2224,7 @@ CMakeFiles/Semestralka_PA2.dir/Renderer.cpp.o: Renderer.cpp \
   /usr/include/c++/11/bits/vector.tcc \
   Character.h \
   IGhostMovement.h \
+  config.h \
   /usr/include/c++/11/iomanip \
   /usr/include/c++/11/bits/ios_base.h \
   /usr/include/c++/11/bits/locale_classes.h \
@@ -2510,6 +2524,7 @@ CMakeFiles/Semestralka_PA2.dir/main.cpp.o: main.cpp \
   /usr/include/c++/11/bits/vector.tcc \
   Character.h \
   IGhostMovement.h \
+  config.h \
   /usr/include/c++/11/iomanip \
   /usr/include/c++/11/locale \
   /usr/include/c++/11/bits/locale_facets_nonio.h \
@@ -2608,6 +2623,8 @@ Modes/Mode.h:
 /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h:
 
 /usr/include/c++/11/fstream:
+
+/usr/include/c++/11/list:
 
 Configuration.cpp:
 
@@ -2721,6 +2738,10 @@ InputHandler.cpp:
 
 /usr/include/alloca.h:
 
+rang.hpp:
+
+/usr/include/x86_64-linux-gnu/bits/types/sigset_t.h:
+
 /usr/include/x86_64-linux-gnu/bits/termios-struct.h:
 
 /usr/include/c++/11/cwchar:
@@ -2754,6 +2775,8 @@ Renderer.cpp:
 /usr/include/linux/errno.h:
 
 IGhostMovement.h:
+
+/usr/include/c++/11/bits/stl_list.h:
 
 /usr/include/c++/11/bits/stringfwd.h:
 
@@ -2862,6 +2885,8 @@ Board.h:
 /usr/include/c++/11/bits/ptr_traits.h:
 
 /usr/include/c++/11/bits/allocated_ptr.h:
+
+/usr/include/c++/11/bits/list.tcc:
 
 /usr/include/c++/11/utility:
 
@@ -3071,10 +3096,6 @@ Configuration.h:
 
 /usr/include/c++/11/bits/atomic_base.h:
 
-rang.hpp:
-
-/usr/include/x86_64-linux-gnu/bits/types/sigset_t.h:
-
 Character.cpp:
 
 /usr/include/c++/11/bits/atomic_lockfree_defines.h:
@@ -3085,13 +3106,15 @@ Character.cpp:
 
 /usr/include/c++/11/backward/auto_ptr.h:
 
-/usr/include/c++/11/iomanip:
+config.h:
 
 /usr/include/x86_64-linux-gnu/bits/termios.h:
 
 /usr/include/x86_64-linux-gnu/asm/errno.h:
 
 /usr/include/c++/11/bits/ios_base.h:
+
+/usr/include/c++/11/iomanip:
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/c++locale.h:
 

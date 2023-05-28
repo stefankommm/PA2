@@ -119,6 +119,7 @@ CMakeFiles/Semestralka_PA2.dir/Board.cpp.o: \
  /usr/include/c++/11/bits/atomic_lockfree_defines.h \
  /usr/include/c++/11/backward/auto_ptr.h \
  /home/stefam/Documents/gitpa2/semestralni-prace/IGhostMovement.h \
+ /home/stefam/Documents/gitpa2/semestralni-prace/config.h \
  /usr/include/c++/11/iomanip /usr/include/c++/11/bits/ios_base.h \
  /usr/include/c++/11/bits/localefwd.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++locale.h \

@@ -4,6 +4,8 @@
 
 #include "Mode.h"
 #include "rang.hpp"
+#include <list>
+#include "Configuration.h"
 
 using namespace std;
 
@@ -118,14 +120,16 @@ void PromptMap::handleInput(InputHandler *inputter, Game *game) {
 
 void ChooseDifficulty::render(Renderer *renderer, Game *game) {
     nextUpdate = false;
-    std::string options[3] = {"Lahka", "Stredna", "Tazka"};
+    std::list<std::string> options = {"Lahka", "Stredna", "Tazka"};
     renderer->clearScreen();
-    for(int i = 0 ; i < 3 ; i++){
-        if(i!=picked){
-            std::cout << options[i] << endl;
+    int index = 0;
+    for (const auto& option : options) {
+        if (index != picked) {
+            std::cout << option << std::endl;
         } else {
-            std:: cout << rang::style::bold << options[i] << rang::style::reset << std::endl;
+            std::cout << rang::style::bold << option << rang::style::reset << std::endl;
         }
+        index++;
     }
 }
 

@@ -157,6 +157,7 @@ CMakeFiles/Semestralka_PA2.dir/Modes/Mode.cpp.o: \
  /usr/include/c++/11/bits/vector.tcc \
  /home/stefam/Documents/gitpa2/semestralni-prace/./Character.h \
  /home/stefam/Documents/gitpa2/semestralni-prace/./IGhostMovement.h \
+ /home/stefam/Documents/gitpa2/semestralni-prace/./config.h \
  /usr/include/c++/11/iomanip /usr/include/c++/11/bits/ios_base.h \
  /usr/include/c++/11/bits/locale_classes.h \
  /usr/include/c++/11/bits/locale_classes.tcc \
@@ -221,4 +222,6 @@ CMakeFiles/Semestralka_PA2.dir/Modes/Mode.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h \
  /usr/include/linux/falloc.h /usr/include/x86_64-linux-gnu/bits/stat.h \
  /usr/include/x86_64-linux-gnu/bits/struct_stat.h \
- /home/stefam/Documents/gitpa2/semestralni-prace/./rang.hpp
+ /home/stefam/Documents/gitpa2/semestralni-prace/./rang.hpp \
+ /usr/include/c++/11/list /usr/include/c++/11/bits/stl_list.h \
+ /usr/include/c++/11/bits/list.tcc

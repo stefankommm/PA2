@@ -23,7 +23,6 @@ public:
     void run();
     void initialize();
     bool gameLoop();
-    const Board& getBoard();
     void setResult(const std::string &player, int score);
     void requestEnd();
 
@@ -31,7 +30,6 @@ public:
 private:
     bool finished;
     std::unique_ptr<Configuration> config;
-    std::unique_ptr<Board> board;
     std::unique_ptr<Renderer> renderer;
     std::unique_ptr<Mode> currentMode;
     std::unique_ptr<InputHandler> inputHandler;

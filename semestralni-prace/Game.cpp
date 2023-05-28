@@ -1,4 +1,4 @@
-//
+
 // Created by stefam on 14. 5. 2023.
 //
 
@@ -11,7 +11,7 @@ const std::chrono::milliseconds DEFAULT_TICK(50); // 1000ms / 20 = 50ms // 20FPS
 
 using namespace std;
 
-Game::Game() : finished(false),config(nullptr), board(nullptr), renderer(nullptr), currentMode(nullptr), inputHandler(nullptr){}
+Game::Game() : finished(false),config(nullptr), renderer(nullptr), currentMode(nullptr), inputHandler(nullptr){}
 
 
 
@@ -53,7 +53,7 @@ bool Game::gameLoop() {
         if(currentMode->shouldUpdate()){
             currentMode->render(renderer.get(),this);
         }
-
+        currentMode->tickAction();
         auto endTick = std::chrono::high_resolution_clock::now();
         auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(endTick - startTick);
         if (elapsed < DEFAULT_TICK) {

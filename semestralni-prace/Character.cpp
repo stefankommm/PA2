@@ -5,20 +5,13 @@
 #include "Character.h"
 
 
-void Character::setReverseEating(bool state) {
-    reverseEating = true;
+pair<int, int> Character::getPosition() const {
+    return {xSur, ySur};
 }
 
-Character::Character(int x, int y) {
-
-}
-
-void Character::move(int dx, int dy) {
-
-}
-
-char Character::getSymbol() const {
-    return 0;
+void Character::setPosition(int x, int y) {
+    xSur = x;
+    ySur = y;
 }
 
 
@@ -27,20 +20,54 @@ void Pacman::setDirection(Direction dir) {
 
 }
 
-Direction Pacman::getDirection() {
-    return Direction::Left;
+Direction Pacman::getDirection() const {
+    return direction;
 }
 
 char Pacman::getSymbol() const {
-    return '<';
+    return directionSymbols.at(direction);
 }
 
-char Pacman::getSymbol(Direction dir) const {
-    return directionSymbols.at(dir);
+void Pacman::move() {
+    // UPDATE PACMAN POSITION;
+    pair<int, int> oldSur = getPosition();
+    pair<int, int> nextSur = oldSur;
+    switch (getDirection()) {
+        case Direction::Up:
+            nextSur.second--;
+            break;
+        case Direction::Down:
+            nextSur.second++;
+            break;
+        case Direction::Left:
+            nextSur.first--;
+            break;
+        case Direction::Right:
+            nextSur.first++;
+            break;
+    }
+    if(nextSur.first >= 0 && nextSur.first < board.grid.size() &&
+       nextSur.second >= 0 && nextSur.second < board.grid.size()) {
+        if (board.grid[nextSur.first][nextSur.second] != CellType::Wall &&
+            board.grid[nextSur.first][nextSur.second] != CellType::Border) {
+            setPosition(nextSur.first, nextSur.second);
+            board.grid[oldSur.first][oldSur.second] = CellType::Empty;
+            board.grid[nextSur.first][nextSur.second] = CellType::Pacman;
+        }
+    }
 }
 
+void Pacman::setReverseEating(bool state) {
+
+}
+
+
+
+
+
+//Ghost::Ghost(int x, int y, Board &board, std::unique_ptr<IGhostMovement> strategy) : Character(x,y), board(board), movementStrategy(move(strategy)) {
+//
+//}
 char Ghost::getSymbol() const {
-    return 'G';
+    return 0;
 }
-
-

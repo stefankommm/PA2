@@ -17,6 +17,7 @@ public:
     virtual ~Mode() = default;
     virtual void render(Renderer* renderer, Game* game) = 0;
     virtual void handleInput(InputHandler *inputter, Game * game) = 0;
+    virtual void tickAction(){};
     bool shouldChange() const {
         return nextChange;
     }
@@ -54,14 +55,16 @@ public:
 
 class Playing : public Mode {
 public:
-    explicit Playing(int difficulty, std::vector<std::vector<CellType>> mapToPlay) : difficulty(difficulty), board(
+    explicit Playing(int difficulty, std::vector<std::vector<CellType>> mapToPlay) : difficulty(difficulty), tick(0), board(
             make_unique<Board>(std::move(mapToPlay), difficulty)) {
 //        board = make_unique<Board>();
     }
     void render(Renderer* renderer, Game* game) override;
     void handleInput(InputHandler *inputter, Game * game) override;
+    void tickAction() override;
 
 protected:
+    unsigned long long tick;
     int difficulty;
     unique_ptr<Board> board;
 };
@@ -84,6 +87,7 @@ class PromptMap : public Mode {
 public:
     void render(Renderer* renderer, Game* game) override;
     void handleInput(InputHandler *inputter, Game * game) override;
+
 protected:
     string chosen;
 };

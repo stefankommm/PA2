@@ -8,7 +8,11 @@
 #include "Character.h"
 #include <iostream>
 #include "rang.hpp"
+#include <map>
+#include "config.h"
+
 class Character;
+class Pacman;
 
 using namespace std;
 enum class CellType {
@@ -23,117 +27,55 @@ enum class CellType {
     Pacman,
     Ghost,
 };
+
+
+
+//
+//class CellNode {
+//public:
+//
+//private:
+//    vector<Character *> characters;
+//    bool accessible;
+//    bool hasCoin = false;
+//    bool hasCoinReverseEating = false;
+//    bool isTeleport = false;
+//};
+//
+//
+
+
 class Board {
 public:
-    Board(std::vector<std::vector<CellType>> initialGrid, int difficulty) : grid(std::move(initialGrid)), initialized(false){
+    Board(std::vector<std::vector<CellType>> initialGrid, int difficulty) : grid(std::move(initialGrid)), counter(0){
         initialize();
     };
 
     void createPacman(int x, int y) {
-
+        pacman_ptr = make_unique<Pacman>(x,y, *this);
     }
 
-    void createGhost(int x, int y) {
-
-    }
-
-
-    void initialize() {
-        bool hasPacman = false;
-        int ghostSpawns = 0;
-        vector<pair<int,int>> coinPosition;
-//        multimap<pair<int,int>,pair<int,int>> teleports;
-
-        for (int y = 0; y < grid[0].size(); y++) {
-            for (int x = 0; x < grid.size(); x++) {
-                switch (grid[x][y]) {
-                    case CellType::CoinPoints:
-                    case CellType::CoinReverseEating:
-                        coinPosition.emplace_back(x,y);
-                        break;
-                    case CellType::GhostSpawn:
-                        createGhost(x,y);
-                        ghostSpawns++;
-                        break;
-                    case CellType::PacmanSpawn:
-                        if(hasPacman)
-                            throw std::runtime_error("Na ploche nemoze byt viac ako jeden pacman");
-                        hasPacman = true;
-                        createPacman(x,y);
-                        break;
-                    case CellType::Teleport:
-                        if(y!=0 || y!=grid[0].size() || x!=0 || x!=grid.size())
-                            throw std::runtime_error("Teleport musi smerovat zo strany na stranu");
-                        std::cout << "T";
-                        break;
-                    default:
-                        break;
-                }
-            }
-            std::cout << std::endl;
-        }
-    }
-
-    void render() {
-        for(const auto & col : grid){
-            for(const auto & row : col){
-                switch(row){
-                    case CellType::Empty:
-                        std::cout << " ";
-                        break;
-                    case CellType::Wall:
-                        std::cout << rang::bgB::blue << " " << rang::style::reset;
-                        break;
-                    case CellType::CoinPoints:
-                        std::cout << "·";
-                        break;
-                    case CellType::CoinReverseEating:
-                        std::cout << rang::fgB::magenta << "C" << rang::style::reset;
-                        break;
-                    case CellType::Border:
-                        std::cout << rang::bg::gray << rang::style::bold <<  " " << rang::style::reset;
-                        break;
-                    case CellType::GhostSpawn:
-                        std::cout << rang::fgB::red <<  "G" << rang::style::reset;
-                        break;
-                    case CellType::PacmanSpawn:
-                        std::cout << rang::fgB::yellow << "▸" << rang::style::reset;
-                        break;
-                    case CellType::Teleport:
-                        std::cout << "T";
-                        break;
-                }
-            }
-            std::cout << std::endl;
-        }
-    };
-
-    void update();
-
-    void buildTeleports(const std::vector<std::vector<CellType>>& initialGrid);
-
-    void addCharacter(std::unique_ptr<Character> character);
-
-    bool hasCharacterAt(int x, int y) const;
-
-    bool hasCoinAt(int x, int y) const;
-
-    bool hasTeleportAt(int x, int y) const;
-
-    bool hasCoinReverseEating(int x, int y) const;
-
-    void collectCoinAt(int x, int y);
-
-    void collectReverseEatingCoinAt(int x, int y);
-
-    void teleport();
-
-    int getScore() const;
-
-
-//    Pacman* getPacman() const {
-//        return pacman;
+//    void createGhost(int x, int y) {
+//        characters.push_back(make_unique<Ghost>(x,y, make_unique<SmartMovement>()));
 //    }
+
+
+    void initialize();
+
+    void render();
+
+    void updatePositions(unsigned long long tick);
+
+    void rotatePacman(Direction dir);
+
+    bool hasGhostAt(pair<int,int>) const;
+
+    bool hasCoinAt(pair<int,int>) const;
+    bool hasTeleportAt(pair<int,int>) const;
+    bool hasCoinReverseEating(pair<int,int>) const;
+    void collectCoinAt(pair<int,int>);
+    void collectReverseEatingCoinAt(pair<int,int>);
+    pair<int,int> teleport(pair<int,int>);
     int getHeight() const;
     const int getWidth() const ;
     int hasCharactersAt(int x, int y) const;
@@ -145,10 +87,16 @@ public:
 
 
 private:
-//    Pacman* pacman = nullptr;
+    bool shouldUpdate;
+public:
+    bool isShouldUpdate() const;
+
+private:
+    unique_ptr<Pacman> pacman_ptr = nullptr;
+    unsigned int counter;
     int score;
-    bool initialized;
     std::vector<std::vector<CellType>> grid;
     std::vector<std::unique_ptr<Character>> characters;
-//    multimap<pair<int,int>,pair<int,int>> teleports; // 1<->1, 2<->2, 3<->3; 1,2,3 represents teleports on the map
+    multimap<pair<int,int>,pair<int,int>> teleports; // 1<->1, 2<->2, 3<->3; 1,2,3 represents teleports on the map
+    friend class Pacman;
 };

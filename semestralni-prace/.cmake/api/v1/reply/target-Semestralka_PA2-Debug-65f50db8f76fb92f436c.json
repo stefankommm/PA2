@@ -132,7 +132,8 @@
 				11,
 				14,
 				16,
-				17
+				17,
+				19
 			]
 		}
 	],
@@ -242,6 +243,11 @@
 			"compileGroupIndex" : 0,
 			"path" : "Modes/Playing.cpp",
 			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "config.h",
+			"sourceGroupIndex" : 1
 		}
 	],
 	"type" : "EXECUTABLE"

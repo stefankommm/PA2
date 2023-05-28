@@ -135,6 +135,9 @@
 		<Unit filename="/home/stefam/Documents/gitpa2/semestralni-prace/Renderer.h">
 			<Option target="Semestralka_PA2"/>
 		</Unit>
+		<Unit filename="/home/stefam/Documents/gitpa2/semestralni-prace/config.h">
+			<Option target="Semestralka_PA2"/>
+		</Unit>
 		<Unit filename="/home/stefam/Documents/gitpa2/semestralni-prace/main.cpp">
 			<Option target="Semestralka_PA2"/>
 		</Unit>

@@ -23,4 +23,4 @@ add_executable(Semestralka_PA2
         Modes/Mode.cpp
         Modes/Mode.h
         Renderer.cpp
-        Renderer.h rang.hpp Modes/Playing.cpp)
+        Renderer.h rang.hpp Modes/Playing.cpp config.h)
