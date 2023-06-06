@@ -1,9 +1,10 @@
-./.cmake
-./.idea
-./bin
-/cmake-build-debug
-/CMakeFiles
+.cmake/
+.idea/
+bin/
+cmake-build-debug.cmake/
+.idea//
+./CMakeFiles
+./doc
 cmake_install.cmake
 CMakeCache.txt
 CMakeLists.txt
-S
