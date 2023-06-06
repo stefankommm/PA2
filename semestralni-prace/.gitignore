@@ -3,7 +3,7 @@
 bin/
 cmake-build-debug.cmake/
 .idea//
-./CMakeFiles
+CMakeFiles/
 ./doc
 cmake_install.cmake
 CMakeCache.txt
