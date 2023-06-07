@@ -14,6 +14,7 @@ enum class Key {
     Right,
     Enter,
     Space,
+    Esc,
     W,
     A,
     S,
@@ -80,6 +81,8 @@ public:
                     return Key::S;
                 case 'd':
                     return Key::D;
+                case '\033':
+                    return Key::Esc;
             }
         }
         return Key::None;

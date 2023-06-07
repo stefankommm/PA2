@@ -1,4 +1,4 @@
-#include "Mode.h"
+//#include "Mode.h"
 #include "InputHandler.h"
 #include "Renderer.h"
 
@@ -7,7 +7,7 @@ using namespace std;
 void Playing::handleInput( ) {
     nextUpdate = true;
     Key pressed = InputHandler::getInput();
-    if (pressed == Key::Enter) {
+    if (pressed == Key::Esc) {
         nextChange = true;
         nextMode = std::make_unique<MainMenu>();
     }

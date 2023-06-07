@@ -7,7 +7,6 @@
 #include <list>
 #include <memory>
 #include <string>
-#include "constants.h"
 #include "Board/Board.h"
 
 
