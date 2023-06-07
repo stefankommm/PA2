@@ -2,6 +2,7 @@
 // Created by stefam on 14. 5. 2023.
 //
 
+#include <queue>
 #include "Board.h"
 #include "Configuration.h"
 
@@ -10,15 +11,12 @@ Board::Board(std::vector<std::vector<CellType>> initialGrid, LevelSettings &sett
         : grid(std::move(initialGrid)),
           ticksTillReverseEnds(0),
           updateNext(false),
-
           reverseEating(false),
           reverseEatingEated(0),
-
           coinsToCollect(0),
           coinsCollected(0),
           score(0),
           lives(DEFAULT_LIVES),
-
           pacman_ptr(nullptr),
           REVERSE_EATING_LENGTH(settings.reverseEatingLength),
           PACMAN_SPEED(settings.pacmanSpeed),
@@ -32,8 +30,8 @@ void Board::initialize(const std::vector<std::string> &ghostsToCreate) {
     int pacmanSpawns = 0;
     int ghostSpawns = 0;
     try {
-        for (int x = 0; x < (int)grid.size(); x++) {
-            for (int y = 0; y < (int)grid[0].size(); y++) {
+        for (int x = 0; x < (int) grid.size(); x++) {
+            for (int y = 0; y < (int) grid[0].size(); y++) {
                 switch (grid[x][y]) {
                     case CellType::CoinPoints:
                     case CellType::CoinReverseEating:
@@ -42,32 +40,19 @@ void Board::initialize(const std::vector<std::string> &ghostsToCreate) {
                     case CellType::GhostSpawn:
                         createGhost(x, y, ghostsToCreate[ghostSpawns % ghostsToCreate.size()]);
                         grid[x][y] = CellType::Empty;
-                        ghostSpawns+=1;
+                        ghostSpawns += 1;
                         break;
                     case CellType::PacmanSpawn:
                         if (pacmanSpawns >= 1)
                             throw std::runtime_error("Na ploche nemoze byt viac ako jeden pacman");
                         grid[x][y] = CellType::Empty;
                         createPacman(x, y);
-                        pacmanSpawns+=1;
+                        pacmanSpawns += 1;
                         break;
                     case CellType::Teleport:
                         //TODO: TELEPORT
-//                        grid[x][y] = CellType::CoinPoints;
-//                        if (teleports.find(make_pair(x, y)) != teleports.end()) {
-//                            break;
-//                        }
-//                        if (x != 0 && y != 0 && x != grid.size() - 1 && y != grid.size() - 1) {
-//                            throw std::runtime_error("Teleport musi smerovat zo strany na stranu");
-//                        }
-//                        int nxSur, nySur;
-//                        nxSur = grid.size() - 1 - x;
-//                        nySur = grid[0].size() - 1 - y;
-//                        if (grid[nxSur][nySur] != CellType::Teleport) {
-//                            throw std::runtime_error("Teleport musi existovat aj na opacnej strane");
-//                        }
-//                        teleports.emplace(std::make_pair(x, y), std::make_pair(nxSur, nySur));
-//                        teleports.emplace(std::make_pair(nxSur, nySur), std::make_pair(x, y));
+                        addTeleport({x, y});
+                        break;
                     case CellType::Border:
                         borderToCross = {x, y};
                         break;
@@ -117,17 +102,20 @@ int Board::isGhostPosition(int xSur, int ySur) const {
  * @param tick The current tick value used to determine the update interval.
  */
 void Board::updatePositions(unsigned long long tick) {
-    checkColissions();
     updateNext = false;
 
+    checkEatenCoins();
+
+
     if (tick % LCM_TICK == 0) {
+        checkColissions(false);
         updateNext = true;
         vector<pair<int, int>> prevGhostPositions{};
         vector<pair<int, int>> updatedGhostPositions{};
         pair<int, int> prevPacmanPosition = pacman_ptr->getPosition();
         pair<int, int> updatedPacmanPosition;
 
-        for (const auto& ghost : ghosts) {
+        for (const auto &ghost: ghosts) {
             prevGhostPositions.push_back(ghost->getPosition());
         }
 
@@ -136,7 +124,7 @@ void Board::updatePositions(unsigned long long tick) {
 
         updatedPacmanPosition = pacman_ptr->getPosition(); // Assign the updated pacman position here
 
-        for (const auto& ghost : ghosts) {
+        for (const auto &ghost: ghosts) {
             updatedGhostPositions.push_back(ghost->getPosition());
         }
 
@@ -152,9 +140,11 @@ void Board::updatePositions(unsigned long long tick) {
         }
     } else {
         if (tick % GHOST_SPEED == 0) {
+            checkColissions(true);
             moveGhosts();
             updateNext = true;
         } else if (tick % PACMAN_SPEED == 0) {
+            checkColissions(false);
             movePacman();
             updateNext = true;
         }
@@ -179,8 +169,8 @@ CellType Board::at(pair<int, int> check) const {
 }
 
 bool Board::isInArea(pair<int, int> check) const {
-    return (check.first >= 0 && check.first < (int)grid.size() &&
-            check.second >= 0 && check.second < (int)grid[0].size());
+    return (check.first >= 0 && check.first < (int) grid.size() &&
+            check.second >= 0 && check.second < (int) grid[0].size());
 }
 
 void Board::respawnPacman() {
@@ -235,14 +225,14 @@ void Board::createGhost(int x, int y, const string &type) {
     if (type == "SMART") {
         std::unique_ptr<IGhostMovement> smartMovement = std::make_unique<SmartMovement>(*this);
         ghosts.emplace_back(std::make_unique<Ghost>(x, y, *this, std::move(smartMovement)));
-    } else if (type == "RANDOM") {
-        std::unique_ptr<IGhostMovement> randomMovement = std::make_unique<RandomMovement>(*this);
+    } else if (type == "STRAIGTXY") {
+        std::unique_ptr<IGhostMovement> randomMovement = std::make_unique<StraightXY>(*this);
         ghosts.emplace_back(std::make_unique<Ghost>(x, y, *this, std::move(randomMovement)));
     } else if (type == "DUMB") {
         std::unique_ptr<IGhostMovement> dumbMovement = std::make_unique<DumbMovement>(*this);
         ghosts.emplace_back(std::make_unique<Ghost>(x, y, *this, std::move(dumbMovement)));
     } else {
-        throw std::invalid_argument("Invalid ghost type");
+        throw std::invalid_argument("There is no a ghost " + type + " Avaialable ghosts are: SMART, STRAIGHTXY, DUMB");
     }
 }
 
@@ -262,7 +252,7 @@ void Board::disableReverseEating() {
 void Board::enableReverseEating() {
     reverseEating = true;
     reverseEatingEated = 0;
-    ticksTillReverseEnds = (int)REVERSE_EATING_LENGTH * DEFAULT_TICKS_SECOND;
+    ticksTillReverseEnds = (int) REVERSE_EATING_LENGTH * DEFAULT_TICKS_SECOND;
     for (auto &g: ghosts) {
         if (g->isAlive()) {
             g->setReverseEating(true);
@@ -276,9 +266,32 @@ void Board::reverseGhostEaten(Character &ghost) {
     score += (int) std::pow(2, reverseEatingEated) * 100;
 }
 
-void Board::checkColissions() {
+void Board::checkColissions(bool checkTeleports) {
     pair<int, int> pacmanPosition = pacman_ptr->getPosition();
     vector<Character *> ghostsStanding;
+
+    if(checkTeleports){
+        vector<Character *> closeToThePacmanNearTeleport;
+        for (auto &ghost : ghosts) {
+            for (const auto &dir : AllDirections) {
+                pair<int, int> nextPos = ghost->getNextPosition(ghost->getPosition(), dir);
+                if (nextPos == pacmanPosition) {
+                    closeToThePacmanNearTeleport.push_back(ghost.get());
+                    break;
+                }
+            }
+        }
+        for(const auto & g : closeToThePacmanNearTeleport){
+            if(g->isReverseEating()){
+                reverseGhostEaten(*g);
+            } else {
+                pacmanEaten();
+                return;
+            }
+        }
+
+    }
+
 
     for (unique_ptr<Character> &ghost: ghosts) {
         if (ghost->getPosition() == pacmanPosition) {
@@ -293,6 +306,7 @@ void Board::checkColissions() {
             reverseGhostEaten(*ghost);
         } else {
             pacmanEaten();
+            break;
         }
     }
 }
@@ -342,9 +356,9 @@ void Board::setAt(pair<int, int> check, CellType toChange) {
     grid[check.first][check.second] = toChange;
 }
 
-const map<pair<int, int>, pair<int, int>> &Board::getTeleports() const {
-    return teleports;
-}
+//const map<pair<int, int>, pair<int, int>> &Board::getTeleports() const {
+//    return teleports;
+//}
 
 const std::vector<std::vector<CellType>> &Board::getGrid() const { return grid; }
 
@@ -359,3 +373,111 @@ const std::vector<std::unique_ptr<Character>> &Board::getGhosts() const {
 int Board::getGridRows() const { return grid.size(); }
 
 int Board::getGridCols() const { return (!grid.empty()) ? grid[0].size() : 0; }
+
+void Board::checkEatenCoins() {
+    switch (at(pacman_ptr->getPosition())) {
+        case CellType::CoinPoints:
+            eatCoinPoints();
+            setAt(pacman_ptr->getPosition(), CellType::Empty);
+            break;
+        case CellType::CoinReverseEating:
+            eatCoinReverseEating();
+            setAt(pacman_ptr->getPosition(), CellType::Empty);
+            break;
+        default:
+            break;
+    }
+}
+
+pair<int, int> Board::getFarthestCoordinatesFromPacman() {
+    const pair<int, int> directions[] = {{0,  -1},
+                                         {0,  1},
+                                         {-1, 0},
+                                         {1,  0}}; // Up, Down, Left, Right
+    vector<vector<bool>> visited(grid.size(), vector<bool>(grid[0].size(), false));
+    queue<pair<int, int>> queue;
+    pair<int, int> farthestPos = pacman_ptr->getPosition();
+
+    queue.push(farthestPos);
+    visited[farthestPos.first][farthestPos.second] = true;
+
+    while (!queue.empty()) {
+        pair<int, int> currentPos = queue.front();
+        queue.pop();
+        farthestPos = currentPos; // update farthest position
+
+        for (const auto &dir: directions) {
+            pair<int, int> nextPos = {currentPos.first + dir.first, currentPos.second + dir.second};
+            if (isInArea(nextPos) && !visited[nextPos.first][nextPos.second]) {
+                CellType cellType = at(nextPos);
+                if (cellType != CellType::Wall && cellType != CellType::Teleport) {
+                    queue.push(nextPos);
+                    visited[nextPos.first][nextPos.second] = true;
+                }
+            }
+        }
+    }
+
+    return farthestPos;
+}
+
+void Board::addTeleport(pair<int, int> first) {
+    // Find the corresponding one -- second, it should be on the other side. if this is x,0 then it must exist on x,size()-1, same for 0,y must exist on size()-1,y
+    int rows = grid.size();
+    int cols = grid[0].size();
+
+//    if (first.first == 0 || first.first == rows - 1 || first.second == 0 || first.second == cols - 1) {
+//        throw std::runtime_error("Teleport nemoze lezat v rohu");
+//    }
+
+    pair<int, int> second;
+    if (first.first == 0) {
+        second = make_pair(rows - 1, first.second);
+    } else if (first.first == rows - 1) {
+        second = make_pair(0, first.second);
+    } else if (first.second == 0) {
+        second = make_pair(first.first, cols - 1);
+    } else if (first.second == cols - 1) {
+        second = make_pair(first.first, 0);
+    } else {
+        throw std::runtime_error("Teleport must be placed on the edge of the grid");
+    }
+
+    // Check if the second teleport already exists
+    if (teleports.find(second) != teleports.end() || teleports.find(first) != teleports.end()) {
+        return;
+    }
+
+    teleports.insert(make_pair(first, second));
+    teleports.insert(make_pair(second, first));
+}
+
+bool Board::isTeleport(pair<int, int> checkAt) {
+    return teleports.find(checkAt) != teleports.end();
+}
+
+pair<int, int> Board::getTeleport(pair<int, int> getAt) {
+    if (isTeleport(getAt)) {
+        return teleports[getAt];
+    }
+    throw std::runtime_error("No teleport exists at the given position");
+}
+
+void Board::initializeTeleports() {
+
+    for (int x = 0; x < (int) grid.size(); x++) {
+        for (int y = 0; y < (int) grid[0].size(); y++) {
+            switch (grid[x][y]) {
+                case CellType::Teleport:
+                    addTeleport({x, y});
+                default:
+                    break;
+            }
+        }
+    }
+
+}
+
+const map<pair<int, int>, pair<int, int>> &Board::getTeleports() const {
+    return teleports;
+}

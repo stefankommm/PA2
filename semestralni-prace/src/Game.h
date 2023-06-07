@@ -9,7 +9,9 @@
 #include <memory>
 #include <chrono>
 #include <vector>
-#include "../Modes/Mode.h"
+#include <thread>
+#include "Modes/Mode.h"
+
 class Renderer;
 class Configuration;
 class Board;

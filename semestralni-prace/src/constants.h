@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <chrono>
 
 enum class Direction {
     Up,
@@ -48,8 +49,12 @@ struct LevelSettings {
     int reverseEatingLength;
 };
 
+const std::chrono::milliseconds DEFAULT_TICK(50); // 1000ms / 20 = 50ms // 20FPS
 const int DEFAULT_TICKS_SECOND = 20;
 const int DEFAULT_LIVES = 3;
+const char DEFAULT_GHOST_SYMBOL = 'G';
+
+
 
 enum class GhostType {
     SmartGhost,

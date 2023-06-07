@@ -11,11 +11,10 @@
 #include <algorithm>
 #include <numeric>
 #include <cmath>
-#include "libraries/rang.hpp"
+#include "../../libs/rang.hpp"
 
 #include "constants.h"
-#include "Character/Character.h"
-#include "Character/Pacman.h"
+
 #include "IGhostMovement.h"
 
 class Board;
@@ -38,6 +37,8 @@ public:
      */
     Board(std::vector<std::vector<CellType>> initialGrid, LevelSettings & settings);
     ~Board() = default;
+
+    void initializeTeleports();
 
     /**
      * @brief Creates a Ghost at the specified coordinates with the given type.
@@ -73,6 +74,9 @@ public:
      */
     bool shouldUpdate() const;
 
+
+    void checkEatenCoins();
+
     /**
      * @brief Updates the positions of Pacman and Ghosts according to their configured speed.
      *        Checks if Pacman collides with any Ghosts.
@@ -85,7 +89,7 @@ public:
      * @brief Checks if Pacman's position is the same as any of the Ghosts' positions.
      *        Performs corresponding actions for the Ghost and Pacman.
      */
-    void checkColissions();
+    void checkColissions(bool checkTeleports = false);
 
     /**
      * @brief Moves all Ghosts by calling their corresponding IGhostMovement.move() function.
@@ -289,6 +293,10 @@ public:
      */
     void pacmanEaten();
 
+
+    pair<int,int> getFarthestCoordinatesFromPacman();
+
+
     /**
      * @brief Performs actions when a Ghost is consumed by Pacman during reverse eating.
      *
@@ -312,6 +320,12 @@ public:
      */
     const map<pair<int, int>, pair<int, int>> &getTeleports() const;
 
+    void addTeleport(pair<int,int> first);
+    bool isTeleport(pair<int,int> checkAt);
+    pair<int,int> getTeleport(pair<int,int> getAt);
+
+
+
 private:
     std::vector<std::vector<CellType>> grid;
 
@@ -328,8 +342,8 @@ private:
 
     pair<int,int> borderToCross;
     unique_ptr<Pacman> pacman_ptr;
-    std::vector<std::unique_ptr<Character>> ghosts;
-    map<pair<int,int>,pair<int,int>> teleports;
+    vector<unique_ptr<Character>> ghosts;
+    map<pair<int,int>,pair<int,int>> teleports{};
 
     int REVERSE_EATING_LENGTH;
     int PACMAN_SPEED;

@@ -3,11 +3,8 @@
 //
 
 #include "Game.h"
-#include <thread>
 #include "InputHandler.h"
-#include "Renderer.h"
 
-const std::chrono::milliseconds DEFAULT_TICK(50); // 1000ms / 20 = 50ms // 20FPS
 
 using namespace std;
 
@@ -35,7 +32,7 @@ bool Game::gameLoop() {
         if(currentMode->shouldEnd() || finished){
             finished = true;
             InputHandler::disableNonCanonicalMode();
-            Renderer::clearScreen();
+            system("clear");
             break;
         }
         if (currentMode->shouldChange()) {
