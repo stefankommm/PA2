@@ -1,6 +1,5 @@
 
 #include "Renderer.h"
-#include "constants.h"
 
 
 using namespace std;
@@ -18,7 +17,11 @@ void Renderer::renderBoard(const Board &board) {
     for (int y = 0; y < board.getGridCols(); y++) {
         for (int x = 0; x < board.getGridRows(); x++) {
             if (pacman_ptr->getPosition() == make_pair(x, y)) {
-                std::cout << rang::fgB::yellow << pacman_ptr->getSymbol() << rang::style::reset;
+                if (board.at({x, y}) == CellType::Teleport) {
+                    std::cout << rang::bg::blue << rang::fgB::yellow << pacman_ptr->getSymbol() << rang::style::reset;
+                } else {
+                    std::cout << rang::fgB::yellow << pacman_ptr->getSymbol() << rang::style::reset;
+                }
                 continue;
             }
             int isAGhost = board.isGhostPosition(x, y);
@@ -66,7 +69,7 @@ void Renderer::renderBoard(const Board &board) {
                         std::cout << rang::fgB::yellow << "▸" << rang::style::reset;
                         break;
                     case CellType::Teleport:
-                        std::cout << "T";
+                        std::cout << rang::bg::blue << " " << rang::style::reset;
                         break;
                     default:
                         break;

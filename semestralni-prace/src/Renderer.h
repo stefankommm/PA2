@@ -7,18 +7,8 @@
 #include <iostream>
 #include <cmath>
 
-#include "../libraries/rang.hpp"
-#include "../Modes/Mode.h"
-
-class Board;
-class Mode;
-class Game;
-class Settings;
-class MainMenu;
-class PromptMap;
-class ChooseDifficulty;
-class RankingTable;
-class PromptName;
+#include "../libs/rang.hpp"
+#include "Modes/Mode.h"
 
 
 class Renderer {

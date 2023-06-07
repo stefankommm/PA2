@@ -1,4 +1,3 @@
-//#include "Mode.h"
 #include "InputHandler.h"
 #include "Renderer.h"
 
