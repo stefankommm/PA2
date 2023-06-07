@@ -10,7 +10,6 @@
 #include <utility>
 
 #include "Character/Character.h"
-#include "Board/Board.h"
 #include "constants.h"
 
 
@@ -20,9 +19,9 @@ class Ghost;
 class Board;
 
 
-class IGhostMovement { ;
+class IGhostMovement {
 public:
-    explicit IGhostMovement(Board &board) : board(board), direction(Direction::Right) {};
+    explicit IGhostMovement(Board &board) : direction(Direction::Right), board(board) {};
     virtual ~IGhostMovement() = default;
     virtual void move(Ghost &ghost) = 0;
     void moveFromSpawn(Ghost &ghost);

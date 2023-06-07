@@ -4,12 +4,16 @@
 
 #include "Game.h"
 #include <thread>
+#include "InputHandler.h"
+#include "Renderer.h"
 
 const std::chrono::milliseconds DEFAULT_TICK(50); // 1000ms / 20 = 50ms // 20FPS
 
 using namespace std;
 
-Game::Game() : finished(false), currentMode(nullptr){}
+Game::Game() : finished(false), currentMode(nullptr){
+
+}
 
 
 void Game::run() {

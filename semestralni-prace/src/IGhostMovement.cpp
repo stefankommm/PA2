@@ -92,7 +92,7 @@ void IGhostMovement::moveFromSpawn(Ghost &ghost) {
             }
         }
     }
-        ghost.setPosition(nextSur);
+    ghost.setPosition(nextSur);
 
 }
 
@@ -104,7 +104,6 @@ void RandomMovement::move(Ghost &ghost) {
 void DumbMovement::move(Ghost &ghost) {
     pair<int, int> ghostPosition = ghost.getPosition();
     pair<int, int> nextPos;
-    CellType nextPosType;
 
     vector<Direction> validDirections;
     for (const auto &dir: AllDirections) {

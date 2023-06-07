@@ -18,7 +18,7 @@
 #include "Character/Pacman.h"
 #include "IGhostMovement.h"
 
-
+class Board;
 class Character;
 class Pacman;
 class Ghost;
@@ -37,6 +37,7 @@ public:
      * @param settings The level settings for the game.
      */
     Board(std::vector<std::vector<CellType>> initialGrid, LevelSettings & settings);
+    ~Board() = default;
 
     /**
      * @brief Creates a Ghost at the specified coordinates with the given type.
@@ -312,6 +313,8 @@ public:
     const map<pair<int, int>, pair<int, int>> &getTeleports() const;
 
 private:
+    std::vector<std::vector<CellType>> grid;
+
     int ticksTillReverseEnds;
     bool updateNext;
 
@@ -322,16 +325,14 @@ private:
     int coinsCollected = 0;
     int score = 0;
     int lives = 3;
-    int difficulty{};
 
     pair<int,int> borderToCross;
     unique_ptr<Pacman> pacman_ptr;
-    std::vector<std::vector<CellType>> grid;
     std::vector<std::unique_ptr<Character>> ghosts;
     map<pair<int,int>,pair<int,int>> teleports;
 
+    int REVERSE_EATING_LENGTH;
     int PACMAN_SPEED;
     int GHOST_SPEED;
     int LCM_TICK;
-    int REVERSE_EATING_LENGTH = 5;
 };

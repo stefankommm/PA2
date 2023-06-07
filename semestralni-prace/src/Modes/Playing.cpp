@@ -1,4 +1,6 @@
 #include "Mode.h"
+#include "InputHandler.h"
+#include "Renderer.h"
 
 using namespace std;
 
@@ -47,13 +49,14 @@ void Playing::tickAction() {
     }
     if(board->isEnd()){
         int score = board->getScore();
-        nextMode = std::make_unique<PromptName>(score);
+        nextMode = std::make_unique<PromptName>(score, difficulty);
         nextChange = true;
     }
 }
 
 Playing::Playing(std::vector<std::vector<CellType>> mapToPlay ,LevelSettings settings, int difficulty)
     : Mode(),
+      difficulty(difficulty),
       tick(0),
       board(make_unique<Board>(std::move(mapToPlay), settings))
     {}

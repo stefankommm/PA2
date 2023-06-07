@@ -4,8 +4,6 @@
 
 #pragma once
 
-
-
 #include <iostream>
 #include <cmath>
 
@@ -30,7 +28,7 @@ public:
     static void renderBoardStats(const Board & board) ;
     static void renderSettings(const Settings & game);
     static void renderMainMenu(const MainMenu & menu);
-    static void renderRankingTable(const RankingTable & menu);
+    static void renderRankingTable(const RankingTable & menu, const  std::vector<std::pair<std::string, int>> & results);
     static void renderPromptMap(const PromptMap & map);
     static void renderChooseDifficulty(const ChooseDifficulty & map);
     static void renderPromptName(const PromptName & prompt);

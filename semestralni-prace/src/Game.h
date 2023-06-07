@@ -10,12 +10,12 @@
 #include <chrono>
 #include <vector>
 #include "../Modes/Mode.h"
-
 class Renderer;
 class Configuration;
 class Board;
 class Mode;
 class InputHandler;
+
 
 /**
  * @class Game
@@ -33,6 +33,7 @@ public:
      * Sets up initial game state.
      */
     Game();
+//    ~Game() = default;
     /**
      * @brief Initializes and starts the main game loop
      *

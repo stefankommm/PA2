@@ -1,5 +1,6 @@
 
 #include "Renderer.h"
+#include "constants.h"
 
 
 using namespace std;
@@ -78,9 +79,6 @@ void Renderer::renderBoard(const Board &board) {
 
 
 void Renderer::renderBoardStats(const Board &board) {
-    const auto &grid = board.getGrid();
-    const auto &pacman_ptr = board.getPacmanPtr();
-    const auto &ghosts = board.getGhosts();
 
     if (board.isReverseEating()) {
         std::cout << rang::fgB::green << rang::style::bold << "Do konca reverse eating je " << rang::style::reset;
@@ -114,8 +112,17 @@ void Renderer::renderMainMenu(const MainMenu &menu) {
     }
 }
 
-void Renderer::renderRankingTable(const RankingTable &table) {
-    cout << "Ranking Table:" << endl;
+void Renderer::renderRankingTable(const RankingTable &table, const std::vector<std::pair<std::string, int>> & results) {
+    std::cout << rang::fg::yellow << rang::style::italic << "Ranking Table of the best players (Showing 10 first):"
+              << rang::style::reset << endl;
+    int poradie = 1;
+    for(const auto & i : results){
+        if(poradie > 10){
+            break;
+        }
+        cout << poradie++ << ". " <<  i.first << " has score " << i.second << endl;
+    }
+
 }
 
 void Renderer::renderPromptMap(const PromptMap &map) {
