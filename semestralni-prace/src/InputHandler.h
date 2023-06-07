@@ -2,9 +2,6 @@
 // Created by stefam on 15. 5. 2023.
 //
 
-#pragma once
-
-
 #include <iostream>
 #include <termios.h>
 #include <unistd.h>
@@ -26,8 +23,6 @@ enum class Key {
 
 class InputHandler {
 public:
-
-
     // Vypne kanonicky mod, umozni nacitanie znaku neblokovane
     static Key getInput() {
         char buf[3] = {0};
@@ -118,7 +113,7 @@ public:
     }
 
 // Nastav kanonicky mod z nekanonimickeho
-   static void disableNonCanonicalMode() {
+    static void disableNonCanonicalMode() {
         struct termios term;
         if (tcgetattr(STDIN_FILENO, &term) == -1) {
             perror("tcgetattr");

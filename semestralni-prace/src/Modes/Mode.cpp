@@ -2,7 +2,13 @@
 // Created by stefam on 14. 5. 2023.
 //
 
+
 #include "Mode.h"
+#include "Renderer.h"
+#include "InputHandler.h"
+#include "Configuration.h"
+#include "constants.h"
+#include "GameResultsManager.h"
 
 
 using namespace std;
@@ -12,6 +18,24 @@ Mode::Mode() :
         nextChange(false),
         nextUpdate(false),
         nextEnd(false) {}
+
+bool Mode::shouldChange() const {
+    return nextChange;
+
+}
+
+bool Mode::shouldUpdate() const {
+    return nextUpdate;
+}
+
+unique_ptr<Mode> &Mode::getNextMode() {
+    return nextMode;
+}
+
+bool Mode::shouldEnd() const {
+    return nextEnd;
+}
+
 
 
 void MainMenu::render() const {
@@ -55,8 +79,8 @@ void MainMenu::handleInput() {
 }
 
 MainMenu::MainMenu() :
-        picked(0),
-        Mode() {}
+        Mode(),
+        picked(0)   {}
 
 int MainMenu::getPicked() const {
     return picked;
@@ -76,9 +100,13 @@ void Settings::handleInput() {
     }
 }
 
+Settings::Settings() : Mode() {
+
+}
+
 void RankingTable::render() const {
     Renderer::clearScreen();
-    Renderer::renderRankingTable(*this);
+    Renderer::renderRankingTable(*this, GameResultsManager::getResults());
 }
 
 void RankingTable::handleInput() {
@@ -90,9 +118,14 @@ void RankingTable::handleInput() {
     }
 }
 
+RankingTable::RankingTable() : Mode() {
+
+}
+
 
 void PromptMap::render() const {
     Renderer::clearScreen();
+    InputHandler::disableNonCanonicalMode();
     Renderer::renderPromptMap(*this);
 }
 
@@ -118,6 +151,10 @@ void PromptMap::handleInput() {
 
 const string &PromptMap::getChosen() const {
     return chosen;
+}
+
+PromptMap::PromptMap() : Mode() {
+
 }
 
 
@@ -158,10 +195,11 @@ void ChooseDifficulty::handleInput() {
     }
 }
 
-ChooseDifficulty::ChooseDifficulty(std::vector<std::vector<CellType>> mapToPlay)
+ChooseDifficulty::ChooseDifficulty(std::vector<std::vector<CellType>> mapToPlay )
         : Mode(),
-          mapToPlay(std::move(mapToPlay)),
-          picked(0) {}
+          picked(0),
+          mapToPlay(std::move(mapToPlay))
+          {}
 
 int ChooseDifficulty::getPicked() const {
     return picked;
@@ -182,6 +220,9 @@ void PromptName::handleInput() {
     name = InputHandler::getString();
     InputHandler::enableNonCanonicalMode();
 
+    if(!name.empty()){
+        GameResultsManager::addResult({name, score});
+    }
     nextMode = make_unique<RankingTable>();
     nextChange = true;
 }
@@ -194,24 +235,6 @@ const string &PromptName::getName() const {
     return name;
 }
 
-bool Mode::shouldChange() const {
-    return nextChange;
-
-}
-
-bool Mode::shouldUpdate() const {
-
-    return nextUpdate;
-
-}
-
-unique_ptr<Mode> &Mode::getNextMode() {
-    return nextMode;
-}
-
-bool Mode::shouldEnd() const {
-    return nextEnd;
-}
 
 
 
