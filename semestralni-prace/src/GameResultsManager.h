@@ -16,8 +16,19 @@ public:
      * @param result pair of the string and the appropriate score achieved.
      */
     static void addResult(const std::pair<std::string, int> &result) {
-        auto position = std::upper_bound(results.begin(), results.end(), result, compareResults);
-        results.insert(position, result);
+        // Remove invisible characters Enter,esc, newline...
+        std::string cleanedString;
+        for (char c : result.first) {
+            if (!std::isspace(static_cast<unsigned char>(c))) {
+                cleanedString += c;
+            }
+        }
+
+        // If not empty add it to the list
+        if (!cleanedString.empty()) {
+            auto position = std::upper_bound(results.begin(), results.end(), std::make_pair(cleanedString, result.second), compareResults);
+            results.insert(position, std::make_pair(cleanedString, result.second));
+        }
     }
 
     /**

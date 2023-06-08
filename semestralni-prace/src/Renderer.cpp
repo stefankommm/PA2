@@ -118,6 +118,7 @@ void Renderer::renderRankingTable(const RankingTable &table, const std::vector<s
     int poradie = 1;
     for(const auto & i : results){
         if(poradie > 10){
+            cout << endl;
             break;
         }
         cout << poradie++ << ". " <<  i.first << " has score " << i.second << endl;

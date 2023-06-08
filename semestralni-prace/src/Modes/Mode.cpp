@@ -111,23 +111,19 @@ void PromptMap::handleInput() {
     chosen = InputHandler::getString();
     std::vector<std::vector<CellType>> playing_map;
     try {
-        try{
-            if (chosen.empty()) {
-                playing_map = Configuration::loadMapFromFile("map.txt");
-            } else
-                playing_map = Configuration::loadMapFromFile(chosen);
+        if (chosen.empty()) {
+            playing_map = Configuration::loadMapFromFile("map.txt");
+        } else {
+            playing_map = Configuration::loadMapFromFile(chosen);
         }
-        catch (std::runtime_error &e) {
-            std::cout << rang::style::bold << rang::fg::red << "Chyba: " << rang::style::reset << e.what() << std::endl;
-        }
-    } catch (const std::runtime_error &e) {
+    } catch (const std::runtime_error& e) {
         std::cout << rang::style::bold << rang::fg::red << "Chyba: " << rang::style::reset << e.what() << std::endl;
         std::cout << rang::fg::yellow << rang::style::italic << "Zadajte nazov mapy znovu: " << rang::style::reset;
         return;
     }
+    
     nextMode = make_unique<ChooseDifficulty>(std::move(playing_map));
     nextChange = true;
-
 }
 
 const string &PromptMap::getChosen() const {
