@@ -1,16 +1,14 @@
 //
 // Created by stefam on 14. 5. 2023.
 //
-
 #include "Character.h"
-#include "constants.h"
 
 
 pair<int, int> Character::getPosition() const {
     return {xSur, ySur};
 }
 
-void Character::setPosition(pair<int,int> newPos) {
+void Character::setPosition(pair<int, int> newPos) {
     xSur = newPos.first;
     ySur = newPos.second;
 }
@@ -20,14 +18,12 @@ void Character::respawn() {
 }
 
 bool Character::isAlive() const {
-        return alive;
+    return alive;
 }
 
 bool Character::isReverseEating() const {
     return reverseEating;
 }
-
-
 
 
 void Pacman::setDirection(Direction dir) {
@@ -60,21 +56,10 @@ void Pacman::move() {
             nextSur.first++;
             break;
     };
-    switch (board.at(oldSur)) {
-        case CellType::CoinPoints:
-            board.eatCoinPoints();
-            board.setAt(oldSur, CellType::Empty);
-            break;
-        case CellType::CoinReverseEating:
-            board.eatCoinReverseEating();
-            board.setAt(oldSur, CellType::Empty);
-            break;
-        default:
-            break;
-    }
+
 
     if (board.isInArea(nextSur)) {
-        switch(board.at(nextSur)){
+        switch (board.at(nextSur)) {
             case CellType::Wall:
             case CellType::Border:
                 break;
@@ -90,32 +75,28 @@ void Pacman::move() {
     }
 }
 
-void Pacman::setReverseEating(bool state) {
-
-}
 
 Pacman::Pacman(int x, int y, Board &board) : Character(x, y, board), direction(Direction::Right) {
 
 }
 
-
-
-
-
+void Pacman::setReverseEating(bool state) { reverseEating = state; };
 
 char Ghost::getSymbol() const {
-    return 'G';
+    return DEFAULT_GHOST_SYMBOL;
 }
 
 void Ghost::move() {
-    if(isAtHome){
+    if (isAtHome) {
         movementStrategy->moveFromSpawn(*this);
     } else {
-        movementStrategy->move(*this);
+        if (isReverseEating()) {
+            movementStrategy->move(*this, board.getFarthestCoordinatesFromPacman());
+        } else {
+            movementStrategy->move(*this, board.getPacmanPosition());
+        }
     }
-
 }
-
 
 void Ghost::setReverseEating(bool state) {
     this->reverseEating = state;

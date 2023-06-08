@@ -1,0 +1,23 @@
+{
+  "difficulty": {
+    "EASY": {
+      "GHOSTS": ["STRAIGTXY", "STRAIGTXY", "STRAIGTXY"],
+      "GHOST_SPEED": 4,
+      "PACMAN_SPEED": 3,
+      "REVERSE_EATING_LENGTH": 15
+
+    },
+    "MEDIUM": {
+      "GHOSTS": ["STRAIGTXY", "SMART", "DUMB"],
+      "GHOST_SPEED": 3,
+      "PACMAN_SPEED": 2,
+      "REVERSE_EATING_LENGTH": 9
+    },
+    "HARD": {
+      "GHOSTS": ["SMART", "SMART", "DUMB"],
+      "GHOST_SPEED": 3,
+      "PACMAN_SPEED": 2,
+      "REVERSE_EATING_LENGTH": 7
+    }
+  }
+}

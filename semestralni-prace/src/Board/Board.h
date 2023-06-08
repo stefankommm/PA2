@@ -35,10 +35,8 @@ public:
      * @param initialGrid The initial grid configuration of the game board.
      * @param settings The level settings for the game.
      */
-    Board(std::vector<std::vector<CellType>> initialGrid, LevelSettings & settings);
+    Board(std::vector<std::vector<CellType>> initialGrid, LevelSettings settings);
     ~Board() = default;
-
-    void initializeTeleports();
 
     /**
      * @brief Creates a Ghost at the specified coordinates with the given type.
@@ -72,7 +70,7 @@ public:
      *
      * @return True if the map should be updated, false otherwise.
      */
-    bool shouldUpdate() const;
+    [[nodiscard]] bool shouldUpdate() const;
 
 
     void checkEatenCoins();
@@ -114,70 +112,70 @@ public:
      * @param check The position to check in the grid.
      * @return The CellType of the grid cell.
      */
-    CellType at(pair<int,int> check) const;
+    [[nodiscard]] CellType at(pair<int,int> check) const;
 
     /**
      * @brief Checks if the current state of the game is final.
      *
      * @return True if the player lost all lives or collected all coins, false otherwise.
      */
-    bool isEnd() const;
+    [[nodiscard]] bool isEnd() const;
 
     /**
      * @brief Retrieves whether reverse eating is enabled.
      *
      * @return True if reverse eating is enabled, false otherwise.
      */
-    bool isReverseEating() const;
+    [[nodiscard]] bool isReverseEating() const;
 
     /**
      * @brief Retrieves the count of Ghosts eaten during reverse eating.
      *
      * @return The count of Ghosts eaten during reverse eating.
      */
-    int getReverseEatingEated() const;
+    [[nodiscard]] int getReverseEatingEated() const;
 
     /**
      * @brief Retrieves the count of coins that need to be collected.
      *
      * @return The count of coins that need to be collected.
      */
-    int getCoinsToCollect() const;
+    [[nodiscard]] int getCoinsToCollect() const;
 
     /**
      * @brief Retrieves the count of coins already collected.
      *
      * @return The count of coins already collected.
      */
-    int getCoinsCollected() const;
+    [[nodiscard]] int getCoinsCollected() const;
 
     /**
      * @brief Retrieves the remaining number of lives.
      *
      * @return The remaining number of lives.
      */
-    int getLives() const;
+    [[nodiscard]] int getLives() const;
 
     /**
      * @brief Retrieves the current score.
      *
      * @return The current score.
      */
-    int getScore() const;
+    [[nodiscard]] int getScore() const;
 
     /**
      * @brief Retrieves the current position of Pacman.
      *
      * @return The current position of Pacman.
      */
-    pair<int,int> getPacmanPosition() const;
+    [[nodiscard]] pair<int,int> getPacmanPosition() const;
 
     /**
      * @brief Retrieves the (x,y) coordinates of the border that each Ghost has to cross before leaving spawn.
      *
      * @return The (x,y) coordinates of the border.
      */
-    pair<int,int> getBorderToCross() const;
+    [[nodiscard]] pair<int,int> getBorderToCross() const;
 
     /**
      * @brief Checks if the specified coordinates correspond to a Ghost's position.
@@ -186,21 +184,21 @@ public:
      * @param ySur The Y-coordinate to check.
      * @return The index of the Ghost if found, -1 otherwise.
      */
-    int isGhostPosition(int xSur, int ySur) const;
+    [[nodiscard]] int isGhostPosition(int xSur, int ySur) const;
 
     /**
      * @brief Retrieves the row count of the grid.
      *
      * @return The row count of the grid.
      */
-    int getGridRows() const;
+    [[nodiscard]] int getGridRows() const;
 
     /**
      * @brief Retrieves the column count of the grid.
      *
      * @return The column count of the grid.
      */
-    int getGridCols() const;
+    [[nodiscard]] int getGridCols() const;
 
     /**
      * @brief Checks if the specified coordinates are within the accessible area of the grid.
@@ -208,35 +206,28 @@ public:
      * @param check The coordinates to check.
      * @return True if the coordinates are within the accessible area, false otherwise.
      */
-    bool isInArea(pair<int,int> check) const;
+    [[nodiscard]] bool isInArea(pair<int,int> check) const;
 
     /**
      * @brief Retrieves the number of ticks remaining until the reverse eating effect ends.
      *
      * @return The number of ticks remaining until the reverse eating effect ends.
      */
-    int getTicksTillReverseEnds() const;
-
-    /**
-     * @brief Retrieves the reference to the grid.
-     *
-     * @return The reference to the grid.
-     */
-    const std::vector<std::vector<CellType>>& getGrid() const;
+    [[nodiscard]] int getTicksTillReverseEnds() const;
 
     /**
      * @brief Retrieves the pointer to the Pacman character.
      *
      * @return The pointer to the Pacman character.
      */
-    Pacman* getPacmanPtr() const;
+    [[nodiscard]] Pacman* getPacmanPtr() const;
 
     /**
      * @brief Retrieves the reference to the vector of Ghost characters.
      *
      * @return The reference to the vector of Ghost characters.
      */
-    const std::vector<std::unique_ptr<Character>>& getGhosts() const;
+    [[nodiscard]] const std::vector<std::unique_ptr<Character>>& getGhosts() const;
 
     /**
      * @brief Sets the CellType at the specified coordinates in the grid.
@@ -318,35 +309,88 @@ public:
      *
      * @return The map of teleport coordinates and their corresponding destinations.
      */
-    const map<pair<int, int>, pair<int, int>> &getTeleports() const;
+    [[nodiscard]] const map<pair<int, int>, pair<int, int>> & getTeleports() const;
 
+    /**
+     * Function which handles adding teleports to the the map. Checks if corresponding Teleport
+     * exists on the other side
+     * @param first First teleport which is tested
+     */
     void addTeleport(pair<int,int> first);
-    bool isTeleport(pair<int,int> checkAt);
-    pair<int,int> getTeleport(pair<int,int> getAt);
-
-
 
 private:
     std::vector<std::vector<CellType>> grid;
 
+    /**
+     * @brief Ticks which are set based from REVERSE_EATING_LENGTH when the reverseEating starts
+     * Handles the count of the ticks till reverseEating ends.
+     */
     int ticksTillReverseEnds;
+
+    /**
+     * @brief Set to true if the board has changed from the last tick.
+     */
     bool updateNext;
 
+    /**
+     * @brief ReverseEatingMode set to true after the pacman eat's the coin.
+     */
     bool reverseEating;
+    /**
+     * @brief Count of the Ghosts the Pacman has eaten during ReverseEating
+     */
     int reverseEatingEated;
 
+    /**
+     * @brief Number of all the coins to be Collected
+     */
     int coinsToCollect = 0;
+    /**
+     * @brief Number of the coins the Pacman has collected
+     */
     int coinsCollected = 0;
+    /**
+     * @brief Score the user has achieved
+     */
     int score = 0;
+    /**
+     * @brief Lives left for the pacman
+     */
     int lives = 3;
 
+    /**
+     * @brief Coordinates of the border the Ghosts must cross before adapting to their algorithm
+     */
     pair<int,int> borderToCross;
+
+    /**
+     * @brief Unique Pointer to the Pacman
+     */
     unique_ptr<Pacman> pacman_ptr;
+    /**
+     * @brief Unique pointers to the ghosts which have been placed on the map.
+     */
     vector<unique_ptr<Character>> ghosts;
+    /**
+     * @brief Map of the teleports with the appropriate teleport to be teleported to.
+     */
     map<pair<int,int>,pair<int,int>> teleports{};
 
+    /**
+     * @brief Length of the ReverseEating from the loaded settings
+     */
     int REVERSE_EATING_LENGTH;
+    /**
+     * @brief Modulo of the ticks the pacman on which he is moved if ticks%PACMAN_SPEED == 0
+     */
     int PACMAN_SPEED;
+    /**
+     * @brief Modulo of the ticks the ghost on which he is moved if ticks%GHOST_SPEED == 0
+     */
     int GHOST_SPEED;
+    /**
+     * @brief LCM of the PACMAN_SPEED and GHOST_SPEED, when both should move at the same time
+     * This is needed due to the collision algorithm used to detect if they crossed.
+     */
     int LCM_TICK;
 };

@@ -1,15 +1,21 @@
 //
 // Created by stefam on 14. 5. 2023.
 //
-
+#include <vector>
 #include <list>
 #include <iostream>
 #include <fstream>
-#include "libraries/nlohmann/json.hpp"
-
 #include "Configuration.h"
 
+#include "../libs/nlohmann/json.hpp"
 
+
+/**
+ * @brief Loads a map from a file and converts it into a 2D grid of CellTypes.
+ * @param mapLocation The location of the map file to load.
+ * @return The 2D grid representing the map.
+ * @throws std::runtime_error If the file cannot be opened, the map is invalid, or any other error occurs.
+ */
 std::vector<std::vector<CellType>> Configuration::loadMapFromFile(const std::string& mapLocation) {
     std::ifstream file(mapLocation);
     if (!file.is_open()) {
@@ -18,6 +24,7 @@ std::vector<std::vector<CellType>> Configuration::loadMapFromFile(const std::str
     std::vector<std::vector<CellType>> newGrid;
     int pacmanSpawns = 0;
     int ghostSpawns = 0;
+    int coins = 0;
     int borders = 0;
     int teleports = 0;
     std::string line;
@@ -31,9 +38,11 @@ std::vector<std::vector<CellType>> Configuration::loadMapFromFile(const std::str
                     break;
                 case '-':
                     cellType = CellType::CoinPoints;
+                    coins++;
                     break;
                 case 'C':
                     cellType = CellType::CoinReverseEating;
+                    coins++;
                     break;
                 case 'B':
                     cellType = CellType::Border;
@@ -70,8 +79,12 @@ std::vector<std::vector<CellType>> Configuration::loadMapFromFile(const std::str
         newGrid.push_back(row);
     }
 
-    if(pacmanSpawns > 1 || pacmanSpawns == 0){
-        throw std::runtime_error("Mapa musi mat prave jeden spawn pre Pacmana - 'P'"+ mapLocation);
+    if(pacmanSpawns != 1){
+        throw std::runtime_error("Mapa musi mat prave jeden spawn pre Pacmana - 'P' "+ mapLocation);
+    }
+
+    if(coins == 0){
+        throw std::runtime_error("Mapa nema ziadnu z minci. Pacman automaticky vyhral - pridajte '-' alebo 'C'"+ mapLocation);
     }
 
     if(ghostSpawns == 0){
@@ -128,6 +141,7 @@ std::vector<std::vector<CellType>> Configuration::loadMapFromFile(const std::str
     return transposedGrid;
 }
 
+
 LevelSettings Configuration::loadConfiguration(int difficulty) {
     std::ifstream configFile("config.json");
 
@@ -137,7 +151,11 @@ LevelSettings Configuration::loadConfiguration(int difficulty) {
     }
 
     nlohmann::json config;
-    configFile >> config;
+    try {
+        configFile >> config;
+    } catch (nlohmann::json::parse_error &e) {
+        throw std::runtime_error("JSON Chyba pri parsovani: ");;
+    }
     configFile.close();
 
     LevelSettings loaded{};
@@ -155,12 +173,17 @@ LevelSettings Configuration::loadConfiguration(int difficulty) {
             break;
     }
 
-    loaded.ghosts = config["difficulty"][pick]["GHOSTS"];
-    loaded.ghostSpeed = config["difficulty"][pick]["GHOST_SPEED"];
-    loaded.pacmanSpeed = config["difficulty"][pick]["PACMAN_SPEED"];
-    loaded.reverseEatingLength = config["difficulty"][pick]["REVERSE_EATING_LENGTH"];
+    try {
+        loaded.ghosts = config.at("difficulty").at(pick).at("GHOSTS");
+        loaded.ghostSpeed = config.at("difficulty").at(pick).at("GHOST_SPEED");
+        loaded.pacmanSpeed = config.at("difficulty").at(pick).at("PACMAN_SPEED");
+        loaded.reverseEatingLength = config.at("difficulty").at(pick).at("REVERSE_EATING_LENGTH");
+    } catch (nlohmann::json::type_error &e) {
+        throw std::runtime_error("JSON Type Chyba: ");;
+
+    } catch (nlohmann::json::out_of_range &e) {
+        throw std::runtime_error("JSON mimo indexu: ");;
+    }
 
     return loaded;
 }
-
-

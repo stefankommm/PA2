@@ -15,6 +15,10 @@ const std::vector<Direction> AllDirections = {
         Direction::Right
 };
 
+/**
+ * @brief CellType is representing the cells on the grid.
+ * Enum for the types the grid can hold.
+ */
 enum class CellType {
     Empty,
     Wall,
@@ -28,20 +32,9 @@ enum class CellType {
     Ghost,
     Spawn
 };
-
-enum class Difficulty {
-    Easy,
-    Medium,
-    Hard
-};
-//
-//std::map<int, Difficulty> DifficultyDictionary = {
-//        {0, Difficulty::Easy},
-//        {1, Difficulty::Medium},
-//        {2, Difficulty::Hard}
-//};
-
-
+/**
+ * @brief Predefined struct for the loading of the settings
+ */
 struct LevelSettings {
     std::vector<std::string> ghosts;
     int ghostSpeed;
@@ -54,10 +47,3 @@ const int DEFAULT_TICKS_SECOND = 20;
 const int DEFAULT_LIVES = 3;
 const char DEFAULT_GHOST_SYMBOL = 'G';
 
-
-
-enum class GhostType {
-    SmartGhost,
-    DumbGhost,
-    RandomGhost
-};

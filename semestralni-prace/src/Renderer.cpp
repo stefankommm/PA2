@@ -101,12 +101,9 @@ void Renderer::renderBoardStats(const Board &board) {
     std::cout << (board.getCoinsToCollect() - board.getCoinsCollected()) << endl;
 }
 
-void Renderer::renderSettings(const Settings &game) {
-    cout << "Settings" << endl;
-}
 
 void Renderer::renderMainMenu(const MainMenu &menu) {
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 3; i++) {
         if (i != menu.getPicked()) {
             std::cout << menu.options[i] << endl;
         } else {

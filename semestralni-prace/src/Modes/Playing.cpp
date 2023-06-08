@@ -53,9 +53,10 @@ void Playing::tickAction() {
     }
 }
 
-Playing::Playing(std::vector<std::vector<CellType>> mapToPlay ,LevelSettings settings, int difficulty)
-    : Mode(),
-      difficulty(difficulty),
-      tick(0),
-      board(make_unique<Board>(std::move(mapToPlay), settings))
-    {}
+
+Playing::Playing(std::vector<std::vector<CellType>> mapToPlay ,const LevelSettings& settings, int difficulty)
+        : Mode(),
+          difficulty(difficulty),
+          tick(0),
+          board(make_unique<Board>(std::move(mapToPlay), settings))
+{}

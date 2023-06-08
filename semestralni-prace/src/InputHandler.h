@@ -22,9 +22,18 @@ enum class Key {
     None
 };
 
+/**
+ * @brief Handles incoming keypresses from the terminal, loads strings from cin
+ * Class handling incoming communication from the terminal
+ */
 class InputHandler {
 public:
+
     // Vypne kanonicky mod, umozni nacitanie znaku neblokovane
+    /**
+     * Function which non-blockingly gets the last character written to the buffer.
+     * @return Returns the appropriate Key to the inputted character/string of characters for keys like Enter,Esc...
+     */
     static Key getInput() {
         char buf[3] = {0};
         struct termios old = {0};
@@ -88,7 +97,11 @@ public:
         return Key::None;
     }
 
-
+    /**
+     * Function which handles loading strings from the user input.
+     * Used for inputting names, names of files where the map is.
+     * @return Returns the appropriate string
+     */
     static std::string getString() {
         disableNonCanonicalMode();
         std::string input;
@@ -97,14 +110,17 @@ public:
         return input;
     }
 
+    /**
+     * Enables nonCanonicalMode which if disabled allows user to get non-blocking
+     * input from the console terminal.
+     */
     static void enableNonCanonicalMode() {
         struct termios term;
         if (tcgetattr(STDIN_FILENO, &term) == -1) {
             perror("tcgetattr");
             return;
         }
-
-        // Dolezite flagy nemaz
+        //Flags in the terminal corresponding to the Canonical mode
         term.c_lflag &= ~(ICANON | ECHO);
         term.c_cc[VMIN] = 0;
         term.c_cc[VTIME] = 0;
@@ -115,7 +131,10 @@ public:
         }
     }
 
-// Nastav kanonicky mod z nekanonimickeho
+    /**
+    * Disables nonCanonicalMode which if disabled allows user to get non-blocking
+    * input from the console terminal.
+    */
     static void disableNonCanonicalMode() {
         struct termios term;
         if (tcgetattr(STDIN_FILENO, &term) == -1) {

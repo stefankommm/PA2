@@ -7,7 +7,7 @@
 #include "Configuration.h"
 
 
-Board::Board(std::vector<std::vector<CellType>> initialGrid, LevelSettings &settings)
+Board::Board(std::vector<std::vector<CellType>> initialGrid, LevelSettings settings)
         : grid(std::move(initialGrid)),
           ticksTillReverseEnds(0),
           updateNext(false),
@@ -356,12 +356,6 @@ void Board::setAt(pair<int, int> check, CellType toChange) {
     grid[check.first][check.second] = toChange;
 }
 
-//const map<pair<int, int>, pair<int, int>> &Board::getTeleports() const {
-//    return teleports;
-//}
-
-const std::vector<std::vector<CellType>> &Board::getGrid() const { return grid; }
-
 Pacman *Board::getPacmanPtr() const {
     return pacman_ptr.get();
 }
@@ -370,9 +364,9 @@ const std::vector<std::unique_ptr<Character>> &Board::getGhosts() const {
     return ghosts;
 }
 
-int Board::getGridRows() const { return grid.size(); }
+int Board::getGridRows() const { return (int)grid.size(); }
 
-int Board::getGridCols() const { return (!grid.empty()) ? grid[0].size() : 0; }
+int Board::getGridCols() const { return (!grid.empty()) ? (int)grid[0].size() : 0; }
 
 void Board::checkEatenCoins() {
     switch (at(pacman_ptr->getPosition())) {
@@ -423,12 +417,16 @@ pair<int, int> Board::getFarthestCoordinatesFromPacman() {
 
 void Board::addTeleport(pair<int, int> first) {
     // Find the corresponding one -- second, it should be on the other side. if this is x,0 then it must exist on x,size()-1, same for 0,y must exist on size()-1,y
-    int rows = grid.size();
-    int cols = grid[0].size();
+    int rows = (int)grid.size();
+    int cols = (int)grid[0].size();
 
-//    if (first.first == 0 || first.first == rows - 1 || first.second == 0 || first.second == cols - 1) {
-//        throw std::runtime_error("Teleport nemoze lezat v rohu");
-//    }
+    if ((first.first == 0 && first.second == 0) ||
+        (first.first == 0 && first.second == rows - 1) ||
+        (first.first == cols - 1 && first.second == 0) ||
+        (first.first == cols - 1 && first.second == rows - 1))
+    {
+        throw std::runtime_error("Teleport nemoze lezat v rohu");
+    }
 
     pair<int, int> second;
     if (first.first == 0) {
@@ -443,40 +441,18 @@ void Board::addTeleport(pair<int, int> first) {
         throw std::runtime_error("Teleport must be placed on the edge of the grid");
     }
 
-    // Check if the second teleport already exists
+    // Check if the teleport already is counted for
     if (teleports.find(second) != teleports.end() || teleports.find(first) != teleports.end()) {
         return;
+    }
+    if(at(second) != CellType::Teleport){
+        throw std::runtime_error("Teleport must exist on the opposite side");
     }
 
     teleports.insert(make_pair(first, second));
     teleports.insert(make_pair(second, first));
 }
 
-bool Board::isTeleport(pair<int, int> checkAt) {
-    return teleports.find(checkAt) != teleports.end();
-}
-
-pair<int, int> Board::getTeleport(pair<int, int> getAt) {
-    if (isTeleport(getAt)) {
-        return teleports[getAt];
-    }
-    throw std::runtime_error("No teleport exists at the given position");
-}
-
-void Board::initializeTeleports() {
-
-    for (int x = 0; x < (int) grid.size(); x++) {
-        for (int y = 0; y < (int) grid[0].size(); y++) {
-            switch (grid[x][y]) {
-                case CellType::Teleport:
-                    addTeleport({x, y});
-                default:
-                    break;
-            }
-        }
-    }
-
-}
 
 const map<pair<int, int>, pair<int, int>> &Board::getTeleports() const {
     return teleports;

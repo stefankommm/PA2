@@ -35,8 +35,6 @@ bool Mode::shouldEnd() const {
     return nextEnd;
 }
 
-
-
 void MainMenu::render() const {
     Renderer::clearScreen();
     Renderer::renderMainMenu(*this);
@@ -55,7 +53,7 @@ void MainMenu::handleInput() {
     if (pressed == Key::Down) {
         nextUpdate = true;
         picked++;
-        picked %= 4;
+        picked %= 3;
     };
     if (pressed == Key::Enter) {
         nextUpdate = true;
@@ -65,12 +63,9 @@ void MainMenu::handleInput() {
                 nextMode = make_unique<PromptMap>();
                 break;
             case 1:
-                nextMode = make_unique<Settings>();
-                break;
-            case 2:
                 nextMode = make_unique<RankingTable>();
                 break;
-            case 3:
+            case 2:
                 nextEnd = true;
                 break;
         }
@@ -79,29 +74,12 @@ void MainMenu::handleInput() {
 
 MainMenu::MainMenu() :
         Mode(),
-        picked(0)   {}
+        picked(0) {}
 
 int MainMenu::getPicked() const {
     return picked;
 }
 
-void Settings::render() const {
-    Renderer::clearScreen();
-    Renderer::renderSettings(*this);
-}
-
-void Settings::handleInput() {
-    nextUpdate = false;
-    Key pressed = InputHandler::getInput();
-    if (pressed == Key::Enter) {
-        nextChange = true;
-        nextMode = std::make_unique<MainMenu>();
-    }
-}
-
-Settings::Settings() : Mode() {
-
-}
 
 void RankingTable::render() const {
     Renderer::clearScreen();
@@ -111,7 +89,7 @@ void RankingTable::render() const {
 void RankingTable::handleInput() {
     nextUpdate = false;
     Key pressed = InputHandler::getInput();
-    if (pressed == Key::Enter) {
+    if (pressed == Key::Enter || pressed == Key::Esc) {
         nextChange = true;
         nextMode = std::make_unique<MainMenu>();
     }
@@ -134,10 +112,10 @@ void PromptMap::handleInput() {
     std::vector<std::vector<CellType>> playing_map;
     try {
         try{
-        if (chosen.empty()) {
-            playing_map = Configuration::loadMapFromFile("map.txt");
-        } else
-            playing_map = Configuration::loadMapFromFile(chosen);
+            if (chosen.empty()) {
+                playing_map = Configuration::loadMapFromFile("map.txt");
+            } else
+                playing_map = Configuration::loadMapFromFile(chosen);
         }
         catch (std::runtime_error &e) {
             std::cout << rang::style::bold << rang::fg::red << "Chyba: " << rang::style::reset << e.what() << std::endl;
@@ -162,7 +140,7 @@ PromptMap::PromptMap() : Mode() {
 
 
 void ChooseDifficulty::render() const {
-    std::list<std::string> options = {"Lahka", "Stredna", "Tazka"};
+    std::list<std::string> optionsRender = {"Lahka", "Stredna", "Tazka"};
     Renderer::clearScreen();
     Renderer::renderChooseDifficulty(*this);
 }
@@ -192,7 +170,6 @@ void ChooseDifficulty::handleInput() {
     if (pressed == Key::Enter) {
         nextChange = true;
         InputHandler::enableNonCanonicalMode();
-        //TODO: HANDLE ERRORS in constructor
         LevelSettings settings = Configuration::loadConfiguration(picked);
         nextMode = std::make_unique<Playing>(std::move(mapToPlay), settings, picked);
     }
@@ -202,7 +179,7 @@ ChooseDifficulty::ChooseDifficulty(std::vector<std::vector<CellType>> mapToPlay 
         : Mode(),
           picked(0),
           mapToPlay(std::move(mapToPlay))
-          {}
+{}
 
 int ChooseDifficulty::getPicked() const {
     return picked;
@@ -223,7 +200,7 @@ void PromptName::handleInput() {
     name = InputHandler::getString();
     InputHandler::enableNonCanonicalMode();
 
-    if(!name.empty()){
+    if (!name.empty()) {
         GameResultsManager::addResult({name, score});
     }
     nextMode = make_unique<RankingTable>();

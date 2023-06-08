@@ -1,28 +1,23 @@
-# Compiler settings
 CC = g++
-CFLAGS = -std=c++17
+CFLAGS = -std=c++17 -Wall -pedantic
 
-# Directory structure
 SRC_DIR = src
 LIB_DIR = $(SRC_DIR)/libraries
-BIN_DIR = bin
+BIN_DIR = src/bin
 OBJ_DIR = $(BIN_DIR)
 DOC_DIR = doc
+EXAMPLE_DIR = examples/normal
 
-# Source files
-SRCS = $(wildcard $(SRC_DIR)/**/*.cpp $(SRC_DIR)/*.cpp)
+SRCS = $(wildcard $(SRC_DIR)/*.cpp $(SRC_DIR)/*/*.cpp)
 OBJS = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRCS))
 
-# Executable
 EXECUTABLE = $(BIN_DIR)/Semestralka_PA2
 
-# Include directories
 INC_DIRS = -I$(SRC_DIR) -I$(LIB_DIR)
 
-# Targets
-.PHONY: all compile run clean doc
+.PHONY: all compile run clean doc copy_files
 
-all: compile
+all: clean compile copy_files
 
 compile: $(EXECUTABLE)
 
@@ -45,3 +40,6 @@ clean:
 doc:
 	@mkdir -p $(DOC_DIR)
 	@doxygen Doxyfile
+
+copy_files:
+	@cp -r $(EXAMPLE_DIR)/* $(BIN_DIR)

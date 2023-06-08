@@ -1,0 +1,24 @@
+Implementujte hru Pacman. Hlavní postava Pacman se snaží sesbírat všechny mince na herním plánu. Během toho se musí vyhýbat všem duchům, kteří se mu v tomto snaží zabránit. Pokud se hráči podaří sesbírat všechny mince, postupuje na další úroveň (jiný herní plán a/nebo obtížnost).
+
+# Hra musí splňovat následující funkcionality:
+
+- Hra dodržuje základné mechaniky, pacman nevie prejsť stenou, iba miestom na tom určeným - teleport
+
+- Z herných mechank alespoň implementujem:
+    - mince (zvýšia skóre),
+    - višne (umožnujú chytať duchov),
+    - teleporty (umožnia hrácom prechádzať medzi dvoma bodmi na mape, keď sa body nachádzajú na okrajoch).
+
+- Duchovia majú na výber 3 algoritmy pohybov
+    - SmartMovement
+    - RandomMovement
+    - S
+
+
+- Stav hry je znázornený v termináli. Ten sa prekresľuje. Sú reprezentovaný každý iným znakom. Pacman má pre každý smer iný znak
+
+- Umožnuje načítať hraciu plochu, počiatočnú pozíciu duchov, pozície bonusov.
+
+- Umožnuje načítanie pravedepodobnosti na bonusy
+
+- Hra umožnuje načítavanie tabuľky najlepších hráčov.
