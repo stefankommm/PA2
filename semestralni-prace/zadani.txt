@@ -1,24 +1,29 @@
-Implementujte hru Pacman. Hlavní postava Pacman se snaží sesbírat všechny mince na herním plánu. Během toho se musí vyhýbat všem duchům, kteří se mu v tomto snaží zabránit. Pokud se hráči podaří sesbírat všechny mince, postupuje na další úroveň (jiný herní plán a/nebo obtížnost).
-
+Implementujte hru Pacman. Hlavní postava Pacman se snaží sesbírat všechny mince na herním plánu. Během toho se musí vyhýbat všem duchům, kteří se mu v tomto snaží zabránit. Ak sa hráčovi podárí zozbierať všetky mince, môže hrať opätovne na vyššej úrovni.
 # Hra musí splňovat následující funkcionality:
 
-- Hra dodržuje základné mechaniky, pacman nevie prejsť stenou, iba miestom na tom určeným - teleport
+- Hra dodržuje základné mechaniky, pacman nevie prejsť stenou, iba miestom na tom určeným - teleport.
 
-- Z herných mechank alespoň implementujem:
+- Z herných mechaník sú implementované:
     - mince (zvýšia skóre),
     - višne (umožnujú chytať duchov),
     - teleporty (umožnia hrácom prechádzať medzi dvoma bodmi na mape, keď sa body nachádzajú na okrajoch).
 
 - Duchovia majú na výber 3 algoritmy pohybov
-    - SmartMovement
-    - RandomMovement
-    - S
+    - SmartMovement - Pohybuje ducha pomocou algoritmu BFS
+    - RandomMovement - Pohybuje ducha náhodne, pričom si pamätá posledné navštívené miesta.
+    - SmartXY - Pohybuje ducha na políčka, ktoré sú najbližšie k Pacmanovi.
 
-
-- Stav hry je znázornený v termináli. Ten sa prekresľuje. Sú reprezentovaný každý iným znakom. Pacman má pre každý smer iný znak
+- Stav hry je znázornený v termináli. Ten sa prekresľuje 20 krát za sekundu. Sú reprezentovaní každý iným znakom. Pacman má pre každý smer iný znak.
+- Duchovia a Pacman sú každý podfarbení inou farbou v závislosti či duchovia naháňajú pacmana alebo naopak.
 
 - Umožnuje načítať hraciu plochu, počiatočnú pozíciu duchov, pozície bonusov.
+- Umožnuje načítanie rýchlosti duchov, rýchlosti pacmana, dĺžku reverzného jedenia, umožní predefinovanie pohybov pre duchov.
 
-- Umožnuje načítanie pravedepodobnosti na bonusy
+- Hra umožnuje načítavanie tabuľky najlepších hráčov počas spustenej inštancie.
 
-- Hra umožnuje načítavanie tabuľky najlepších hráčov.
+
+Polymorfizmus je využitý:
+    - Mód Hry
+    - Typ Postavy: Pacman, Duch
+    - Správanie Duchov
+

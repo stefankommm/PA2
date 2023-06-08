@@ -8,10 +8,10 @@
 
 using namespace std;
 
-Game::Game() : finished(false), currentMode(nullptr){
-
-}
-
+Game::Game() :
+    finished(false),
+    currentMode(nullptr)
+    {}
 
 void Game::run() {
     Game::initialize();

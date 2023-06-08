@@ -3,7 +3,7 @@ CFLAGS = -std=c++17 -Wall -pedantic
 
 SRC_DIR = src
 LIB_DIR = $(SRC_DIR)/libraries
-BIN_DIR = src/bin
+BIN_DIR = stefam17
 OBJ_DIR = $(BIN_DIR)
 DOC_DIR = doc
 EXAMPLE_DIR = examples/normal

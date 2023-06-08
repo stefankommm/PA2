@@ -76,9 +76,9 @@ void Pacman::move() {
 }
 
 
-Pacman::Pacman(int x, int y, Board &board) : Character(x, y, board), direction(Direction::Right) {
-
-}
+Pacman::Pacman(int x, int y, Board &board) :
+    Character(x, y, board),
+    direction(Direction::Right) {}
 
 void Pacman::setReverseEating(bool state) { reverseEating = state; };
 

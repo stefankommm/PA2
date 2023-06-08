@@ -130,7 +130,7 @@ public:
      * @brief Sets the reverse eating mode for Pacman.
      * @param state The state to set for the reverse eating mode.
      */
-    virtual void setReverseEating(bool state) override;
+    void setReverseEating(bool state) override;
 
 
 private:

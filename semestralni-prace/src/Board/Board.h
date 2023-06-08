@@ -15,7 +15,7 @@
 
 #include "constants.h"
 
-#include "IGhostMovement.h"
+#include "Character/IGhostMovement.h"
 
 class Board;
 class Character;

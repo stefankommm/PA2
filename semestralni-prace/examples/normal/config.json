@@ -1,7 +1,7 @@
 {
   "difficulty": {
     "EASY": {
-      "GHOSTS": ["STRAIGTXY", "STRAIGTXY", "STRAIGTXY"],
+      "GHOSTS": ["DUMB", "STRAIGTXY", "SMART"],
       "GHOST_SPEED": 4,
       "PACMAN_SPEED": 3,
       "REVERSE_EATING_LENGTH": 15
