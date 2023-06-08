@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="Semestralka_PA2"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/stefam/Documents/gitpa2/semestralni-prace"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j16 -f &quot;/home/stefam/Documents/gitpa2/semestralni-prace/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/gmake -j16 -f &quot;/home/stefam/Documents/gitpa2/semestralni-prace/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j16 -f &quot;/home/stefam/Documents/gitpa2/semestralni-prace/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j16 -f &quot;/home/stefam/Documents/gitpa2/semestralni-prace/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Semestralka_PA2">
+				<Option output="/home/stefam/Documents/gitpa2/semestralni-prace/bin/Semestralka_PA2" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/stefam/Documents/gitpa2/semestralni-prace/bin"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/stefam/Documents/gitpa2/semestralni-prace/./src"/>
+					<Add directory="/home/stefam/Documents/gitpa2/semestralni-prace/./src/libraries"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j16 -f &quot;/home/stefam/Documents/gitpa2/semestralni-prace/Makefile&quot;  VERBOSE=1 Semestralka_PA2"/>
+					<CompileFile command="/usr/bin/gmake -j16 -f &quot;/home/stefam/Documents/gitpa2/semestralni-prace/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j16 -f &quot;/home/stefam/Documents/gitpa2/semestralni-prace/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j16 -f &quot;/home/stefam/Documents/gitpa2/semestralni-prace/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Semestralka_PA2/fast">
+				<Option output="/home/stefam/Documents/gitpa2/semestralni-prace/bin/Semestralka_PA2" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/stefam/Documents/gitpa2/semestralni-prace/bin"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/stefam/Documents/gitpa2/semestralni-prace/./src"/>
+					<Add directory="/home/stefam/Documents/gitpa2/semestralni-prace/./src/libraries"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j16 -f &quot;/home/stefam/Documents/gitpa2/semestralni-prace/Makefile&quot;  VERBOSE=1 Semestralka_PA2/fast"/>
+					<CompileFile command="/usr/bin/gmake -j16 -f &quot;/home/stefam/Documents/gitpa2/semestralni-prace/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j16 -f &quot;/home/stefam/Documents/gitpa2/semestralni-prace/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j16 -f &quot;/home/stefam/Documents/gitpa2/semestralni-prace/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/stefam/Documents/gitpa2/semestralni-prace"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j16 -f &quot;/home/stefam/Documents/gitpa2/semestralni-prace/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/gmake -j16 -f &quot;/home/stefam/Documents/gitpa2/semestralni-prace/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j16 -f &quot;/home/stefam/Documents/gitpa2/semestralni-prace/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j16 -f &quot;/home/stefam/Documents/gitpa2/semestralni-prace/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/stefam/Documents/gitpa2/semestralni-prace"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j16 -f &quot;/home/stefam/Documents/gitpa2/semestralni-prace/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/gmake -j16 -f &quot;/home/stefam/Documents/gitpa2/semestralni-prace/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j16 -f &quot;/home/stefam/Documents/gitpa2/semestralni-prace/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j16 -f &quot;/home/stefam/Documents/gitpa2/semestralni-prace/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/stefam/Documents/gitpa2/semestralni-prace/libs/rang.hpp">
+			<Option target="Semestralka_PA2"/>
+		</Unit>
+		<Unit filename="/home/stefam/Documents/gitpa2/semestralni-prace/src/Board/Board.cpp">
+			<Option target="Semestralka_PA2"/>
+		</Unit>
+		<Unit filename="/home/stefam/Documents/gitpa2/semestralni-prace/src/Board/Board.h">
+			<Option target="Semestralka_PA2"/>
+		</Unit>
+		<Unit filename="/home/stefam/Documents/gitpa2/semestralni-prace/src/Character/Character.cpp">
+			<Option target="Semestralka_PA2"/>
+		</Unit>
+		<Unit filename="/home/stefam/Documents/gitpa2/semestralni-prace/src/Character/Character.h">
+			<Option target="Semestralka_PA2"/>
+		</Unit>
+		<Unit filename="/home/stefam/Documents/gitpa2/semestralni-prace/src/Character/IGhostMovement.cpp">
+			<Option target="Semestralka_PA2"/>
+		</Unit>
+		<Unit filename="/home/stefam/Documents/gitpa2/semestralni-prace/src/Character/IGhostMovement.h">
+			<Option target="Semestralka_PA2"/>
+		</Unit>
+		<Unit filename="/home/stefam/Documents/gitpa2/semestralni-prace/src/Configuration.cpp">
+			<Option target="Semestralka_PA2"/>
+		</Unit>
+		<Unit filename="/home/stefam/Documents/gitpa2/semestralni-prace/src/Configuration.h">
+			<Option target="Semestralka_PA2"/>
+		</Unit>
+		<Unit filename="/home/stefam/Documents/gitpa2/semestralni-prace/src/Game.cpp">
+			<Option target="Semestralka_PA2"/>
+		</Unit>
+		<Unit filename="/home/stefam/Documents/gitpa2/semestralni-prace/src/Game.h">
+			<Option target="Semestralka_PA2"/>
+		</Unit>
+		<Unit filename="/home/stefam/Documents/gitpa2/semestralni-prace/src/GameResultsManager.h">
+			<Option target="Semestralka_PA2"/>
+		</Unit>
+		<Unit filename="/home/stefam/Documents/gitpa2/semestralni-prace/src/InputHandler.h">
+			<Option target="Semestralka_PA2"/>
+		</Unit>
+		<Unit filename="/home/stefam/Documents/gitpa2/semestralni-prace/src/Modes/Mode.cpp">
+			<Option target="Semestralka_PA2"/>
+		</Unit>
+		<Unit filename="/home/stefam/Documents/gitpa2/semestralni-prace/src/Modes/Mode.h">
+			<Option target="Semestralka_PA2"/>
+		</Unit>
+		<Unit filename="/home/stefam/Documents/gitpa2/semestralni-prace/src/Modes/Playing.cpp">
+			<Option target="Semestralka_PA2"/>
+		</Unit>
+		<Unit filename="/home/stefam/Documents/gitpa2/semestralni-prace/src/Renderer.cpp">
+			<Option target="Semestralka_PA2"/>
+		</Unit>
+		<Unit filename="/home/stefam/Documents/gitpa2/semestralni-prace/src/Renderer.h">
+			<Option target="Semestralka_PA2"/>
+		</Unit>
+		<Unit filename="/home/stefam/Documents/gitpa2/semestralni-prace/src/constants.h">
+			<Option target="Semestralka_PA2"/>
+		</Unit>
+		<Unit filename="/home/stefam/Documents/gitpa2/semestralni-prace/src/main.cpp">
+			<Option target="Semestralka_PA2"/>
+		</Unit>
+		<Unit filename="/home/stefam/Documents/gitpa2/semestralni-prace/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

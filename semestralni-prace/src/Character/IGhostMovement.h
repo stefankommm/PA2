@@ -70,7 +70,7 @@ public:
     explicit StraightXY(Board &board) : IGhostMovement(board) {}
     /**
      * Navigation which prefers to go to the place which is closer to the (Pacman/Furhest from pacman). It calculates distance for
-     * each direction and navigates 65 percent to this place. in 35% the prediction is random.
+     * each direction and navigates 65 percent to this place. in 15% the prediction is random.
      * @brief Function that tries to navigate the Ghost way the nextCoordinate would be closer to the toPosition with some randomness
      * @param ghost Ghost reference on which the movement is done
      * @param toPosition Position where the pacman should ideally end in (Pacman's position/Position furthest from Pacman)

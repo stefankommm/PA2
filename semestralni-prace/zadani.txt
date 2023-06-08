@@ -1,12 +1,14 @@
-Implementujte hru Pacman. Hlavní postava Pacman se snaží sesbírat všechny mince na herním plánu. Během toho se musí vyhýbat všem duchům, kteří se mu v tomto snaží zabránit. Ak sa hráčovi podárí zozbierať všetky mince, môže hrať opätovne na vyššej úrovni.
-# Hra musí splňovat následující funkcionality:
+Implementujte hru Pacman. Hlavní postava Pacman se snaží sesbírat všechny mince na herním plánu. Během toho se musí vyhýbat všem duchům, kteří se mu v tomto snaží zabránit. Ak sa hráčovi podarí zozbierať všetky mince, môže hrať opätovne na vyššej úrovni.
+Pri spustení si použvateľ môže vybrať či chce Hrať alebo hru ukončiť. Ak vyberie hrať zobrazí sa mu prompt, aby zadal názov súboru mapy, ak prebehlo úspešne tak sa mu zobrazí výber obtiažnosti, z ktorých si môže vybrať a následne hrať.
+
+# Hra musí splňovať následující funkcionality:
 
 - Hra dodržuje základné mechaniky, pacman nevie prejsť stenou, iba miestom na tom určeným - teleport.
 
 - Z herných mechaník sú implementované:
     - mince (zvýšia skóre),
-    - višne (umožnujú chytať duchov),
-    - teleporty (umožnia hrácom prechádzať medzi dvoma bodmi na mape, keď sa body nachádzajú na okrajoch).
+    - višne (umožňujú chytať duchov),
+    - teleporty (umožnia hráčom prechádzať medzi dvoma bodmi na mape, keď sa body nachádzajú na okrajoch).
 
 - Duchovia majú na výber 3 algoritmy pohybov
     - SmartMovement - Pohybuje ducha pomocou algoritmu BFS
@@ -21,9 +23,15 @@ Implementujte hru Pacman. Hlavní postava Pacman se snaží sesbírat všechny m
 
 - Hra umožnuje načítavanie tabuľky najlepších hráčov počas spustenej inštancie.
 
-
 Polymorfizmus je využitý:
-    - Mód Hry
-    - Typ Postavy: Pacman, Duch
-    - Správanie Duchov
+    - Mód Hry(Mode)
+        - Abstraktná trieda, ktorá má spoločné metódy: render(), handleInput(), tickAction() pre všetky herné režimy
+        - Sú z nej odvodené módy MainMenu, RankingTable, Playing, PromptMap, PromptUser
+    - Typ Postavy: Pacman, Duch(Chararcter)
+        - Abstraktná trieda Character, z ktorej sú odvodené triedy Pacman a Ghost, má spoločné rozrhanie move(), getSymbol(), setReverseEating()
+        - Stará sa o pohyb Pacmana a Duchov vzhľadom na režim v ktorom sa nacháza. Drží spawnPoint kde sa majú oživiť.
+    - Správanie Duchov(IGhostMovement)
+        - Abstraktná trieda. Definuje spoločné rozhranie pre všetky pohybové stratégie duchov.
+        - Obsahuje virtuálnu metódu move(), ktorá musí byť implementovaná v odvodzovaných triedach.
+        - Trieda IGhostMovement tiež obsahuje atribúty a metódy, ktoré sú spoločné pre všetky stratégie, ako je smer pohybu a odkaz na hernú dosku.
 
